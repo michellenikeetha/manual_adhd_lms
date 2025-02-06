@@ -1,16 +1,39 @@
 // components/InputField.js
-import React from 'react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
-const InputField = ({ type, placeholder, icon }) => {
+const InputField = ({ type, placeholder, icon, value, onChange, error }) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
-    <div className="relative w-full">
-      {icon && <span className="absolute left-3 top-3">{icon}</span>}
+    <motion.div
+      className={`relative rounded-lg border-2 transition-colors duration-200 ${
+        error ? 'border-red-400' : isFocused ? 'border-blue-400' : 'border-gray-200'
+      }`}
+      whileTap={{ scale: 0.995 }}
+    >
+      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+        {icon}
+      </div>
       <input
         type={type}
+        className="w-full py-3 px-10 rounded-lg bg-transparent focus:outline-none"
         placeholder={placeholder}
-        className="w-full border border-gray-300 py-2 pl-10 pr-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        value={value}
+        onChange={onChange}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       />
-    </div>
+      {error && (
+        <motion.p
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-red-500 text-sm mt-1"
+        >
+          {error}
+        </motion.p>
+      )}
+    </motion.div>
   );
 };
 

@@ -1,70 +1,128 @@
 // components/SignUpPage.js
-import React from 'react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import InputField from './InputField';
-import { FaEnvelope, FaLock, FaIdBadge } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaIdBadge, FaCheckCircle } from 'react-icons/fa';
 import logo from '../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: '',
+    regNumber: '',
+    password: ''
+  });
+  const [errors, setErrors] = useState({});
 
-  const handleSignUp = () => {
-    navigate('/login', { state: { message: 'Sign Up Successful! Please Sign in to Continue.' } });
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    const newErrors = {};
+    if (!formData.email) newErrors.email = 'Email is required';
+    if (!formData.regNumber) newErrors.regNumber = 'Registration number is required';
+    if (!formData.password) newErrors.password = 'Password is required';
+
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      navigate('/login', { 
+        state: { message: 'Sign Up Successful! Please Sign in to Continue.' }
+      });
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100 p-4"
+    >
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="w-full max-w-md bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-xl"
+      >
+        <motion.div
+          className="flex justify-center mb-6"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <img src={logo} alt="Logo" className="w-20 h-20" />
+        </motion.div>
 
-        <div className="flex justify-center mb-5">
-          <img src={logo} alt="Logo" className="w-15 h-15" /> 
-        </div>
+        <motion.h2
+          className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          Join EduLearn
+        </motion.h2>
 
-        <h2 className="text-2xl font-bold text-center mb-6">Join EduLearn</h2>
+        <form onSubmit={handleSignUp} className="space-y-6">
+          <div>
+            <InputField
+              type="email"
+              placeholder="example@mail.com"
+              icon={<FaEnvelope />}
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              error={errors.email}
+            />
+          </div>
 
-        <div className="mb-4">
-          <label className="text-sm text-gray-600">Email</label>
-          <InputField
-            type="email"
-            placeholder="example@mail.com"
-            icon={<FaEnvelope />}
-          />
-        </div>
+          <div>
+            <InputField
+              type="text"
+              placeholder="2020/IS/123"
+              icon={<FaIdBadge />}
+              value={formData.regNumber}
+              onChange={(e) => setFormData({ ...formData, regNumber: e.target.value })}
+              error={errors.regNumber}
+            />
+          </div>
 
-        <div className="mb-4">
-          <label className="text-sm text-gray-600">Registration Number</label>
-          <InputField
-            type="text"
-            placeholder="2020/IS/123"
-            icon={<FaIdBadge />}
-          />
-        </div>
+          <div>
+            <InputField
+              type="password"
+              placeholder="********"
+              icon={<FaLock />}
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              error={errors.password}
+            />
+          </div>
 
-        <div className="mb-4">
-          <label className="text-sm text-gray-600">Password</label>
-          <InputField
-            type="password"
-            placeholder="********"
-            icon={<FaLock />}
-          />
-        </div>
-
-        <div className="mt-6">
-          <button
-            onClick={handleSignUp}
-            className="w-full h-12 bg-[#1677ff] text-white text-lg font-semibold rounded-lg flex items-center justify-center hover:bg-[#1366cc] focus:outline-none shadow-md"
+          <motion.button
+            type="submit"
+            className="w-full h-12 bg-blue-600 text-white text-lg font-semibold rounded-lg flex items-center justify-center transition-colors duration-200 hover:bg-blue-700"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            Sign-up
-          </button>
-        </div>
+            Sign up
+          </motion.button>
+        </form>
 
-        <div className="text-center mt-4">
-          <p>
-            Already have an account? <span onClick={() => navigate('/login')} className="text-blue-500 cursor-pointer">Sign In</span>
+        <motion.div
+          className="text-center mt-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+        >
+          <p className="text-gray-600">
+            Already have an account?{' '}
+            <motion.span
+              onClick={() => navigate('/login')}
+              className="text-blue-500 cursor-pointer hover:underline"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Sign In
+            </motion.span>
           </p>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
