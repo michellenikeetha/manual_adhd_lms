@@ -9,17 +9,17 @@ const WhyChooseSection = () => {
       <h2 className="text-4xl font-bold mb-20">Why Choose EduLearn?</h2>
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <FeatureCard 
-          icon={<FaChalkboardTeacher />} 
+          icon={<FaChalkboardTeacher className="text-blue-600" />} 
           title="Expert Instructors" 
           description="Learn from industry experts with years of experience in their fields."
         />
         <FeatureCard 
-          icon={<FaCertificate />} 
+          icon={<FaCertificate className="text-blue-600" />} 
           title="Certified Courses" 
           description="Gain certifications that are recognized by top employers worldwide."
         />
         <FeatureCard 
-          icon={<FaUsers />} 
+          icon={<FaUsers className="text-blue-600" />} 
           title="Community Support" 
           description="Join a vibrant community of learners to exchange knowledge and grow together."
         />

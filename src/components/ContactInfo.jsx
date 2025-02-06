@@ -22,13 +22,13 @@ const ContactInfo = () => {
           </p>
 
           <div className="flex gap-6 mt-6 justify-center sm:justify-start">
-            <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#1677ff] hover:text-yellow-500 transition">
+            <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#1677ff] hover:text-yellow-500 transition duration-300">
               <FaFacebook size={24} />
             </a>
-            <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#1677ff] hover:text-yellow-500 transition">
+            <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#1677ff] hover:text-yellow-500 transition duration-300">
               <FaTwitter size={24} />
             </a>
-            <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#1677ff] hover:text-yellow-500 transition">
+            <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#1677ff] hover:text-yellow-500 transition duration-300">
               <FaLinkedin size={24} />
             </a>
           </div>
