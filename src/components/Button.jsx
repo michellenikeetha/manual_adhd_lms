@@ -1,20 +1,32 @@
 // components/Button.js
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const Button = ({ text, onClick }) => {
   return (
-    <button
+    <motion.button
       onClick={onClick}
-      className="flex w-[200px] h-[50px] justify-center items-center bg-[#1677ff] rounded-full shadow-[0_2px_0_0_rgba(5,145,255,0.1)] text-white text-[18px] leading-[24px] hover:bg-[#1366cc] focus:outline-none transition duration-300"
+      className="group relative flex w-[200px] h-[50px] justify-center items-center bg-blue-600 rounded-full shadow-lg text-white text-lg overflow-hidden transition-colors duration-300 hover:bg-blue-700"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
     >
-      <div className="flex gap-[8px] items-center">
-        <div
-          className="w-[16px] h-[16px] bg-cover"
-          style={{ backgroundImage: `url(${require('../assets/arrow.png')})` }}
+      <motion.div
+        className="absolute inset-0 bg-blue-400 origin-left"
+        initial={{ scaleX: 0 }}
+        whileHover={{ scaleX: 1 }}
+        transition={{ duration: 0.3 }}
+      />
+      <span className="relative z-10 flex items-center gap-2">
+        {text}
+        <motion.img
+          src={require('../assets/arrow.png')}
+          alt=""
+          className="w-4 h-4"
+          whileHover={{ x: 5 }}
+          transition={{ duration: 0.2 }}
         />
-        <span>{text}</span>
-      </div>
-    </button>
+      </span>
+    </motion.button>
   );
 };
 
