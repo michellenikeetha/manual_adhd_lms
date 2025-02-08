@@ -1,12 +1,11 @@
 // components/CourseCard.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, Bell, Search, X, AlertCircle, Clock } from 'lucide-react';
+import { CheckCircle, X, Clock } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faComment, faCheckCircle, faFlag, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faComment, faCheckCircle, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
 
-// Enhanced CourseCard Component
 const CourseCard = ({ course, isEnrolled }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -20,34 +19,34 @@ const CourseCard = ({ course, isEnrolled }) => {
 
   return (
     <motion.div
-      className="bg-white p-6 rounded-lg shadow-lg relative overflow-hidden"
-      whileHover={{ scale: 1.02, y: -5 }}
-      whileTap={{ scale: 0.98 }}
+      className="bg-white p-6 rounded-2xl shadow-md relative overflow-hidden hover:shadow-lg transition-shadow duration-300"
+      whileHover={{ scale: 1.03, y: -3 }}
+      whileTap={{ scale: 0.97 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      transition={{ type: "spring", stiffness: 300, damping: 15 }}
     >
       <motion.div
-        className="absolute top-2 right-2 bg-blue-100 rounded-full p-2"
+        className="absolute top-2 right-2 bg-indigo-100 rounded-full p-2"
         initial={{ opacity: 0 }}
         animate={{ opacity: isHovered ? 1 : 0 }}
       >
-        <Clock className="w-4 h-4 text-blue-600" />
+        <Clock className="w-4 h-4 text-indigo-600" />
       </motion.div>
 
       <div
-        className="h-32 bg-gray-200 rounded-lg mb-4 bg-cover bg-center transform transition-transform duration-300"
+        className="h-36 bg-gradient-to-r from-blue-200 to-indigo-200 rounded-xl mb-4 bg-cover bg-center transform hover:scale-105 transition-transform duration-300"
         style={{ backgroundImage: `url(${course.imageUrl})` }}
       />
 
       <motion.h3 
-        className="text-lg font-bold mb-2"
-        animate={{ color: isHovered ? '#2563EB' : '#1F2937' }}
+        className="text-xl font-semibold text-gray-900 mb-2"
+        animate={{ color: isHovered ? '#4F46E5' : '#1E293B' }}
       >
         {course.title}
       </motion.h3>
       
-      <p className="text-sm text-gray-600">{course.semester}</p>
+      <p className="text-sm text-gray-500 font-medium mb-4">{course.semester}</p>
 
       {isEnrolled ? (
         <motion.div 
@@ -56,14 +55,14 @@ const CourseCard = ({ course, isEnrolled }) => {
           animate={{ opacity: 1 }}
         >
           <div className="flex justify-between items-center">
-            <p className="text-sm text-blue-600 font-medium">{course.progress}% Complete</p>
+            <p className="text-sm text-indigo-600 font-medium">{course.progress}% Complete</p>
             {course.progress === 100 && (
               <CheckCircle className="w-5 h-5 text-green-500" />
             )}
           </div>
-          <div className="relative w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+          <div className="relative w-full h-3 bg-gray-300 rounded-full overflow-hidden">
             <motion.div
-              className="absolute left-0 top-0 h-full bg-blue-600 rounded-full"
+              className="absolute left-0 top-0 h-full bg-indigo-600 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${course.progress}%` }}
               transition={{ duration: 1, ease: "easeOut" }}
@@ -72,12 +71,12 @@ const CourseCard = ({ course, isEnrolled }) => {
         </motion.div>
       ) : (
         <motion.button
-          className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+          className="mt-4 w-full bg-indigo-600 text-white py-3 px-4 rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 focus:ring focus:ring-indigo-400 focus:ring-opacity-50"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setShowConfirm(true)}
         >
-          <span>Enroll now</span>
+          <span>Enroll Now</span>
           <motion.div
             animate={{ x: [0, 5, 0] }}
             transition={{ repeat: Infinity, duration: 1.5 }}
@@ -96,13 +95,13 @@ const CourseCard = ({ course, isEnrolled }) => {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white p-6 rounded-lg shadow-lg w-80"
+              className="bg-white p-6 rounded-2xl shadow-xl w-80"
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
             >
               <div className="flex justify-between items-center mb-4">
-                <h4 className="text-lg font-bold">Confirm Enrollment</h4>
+                <h4 className="text-lg font-semibold">Confirm Enrollment</h4>
                 <button 
                   onClick={() => setShowConfirm(false)}
                   className="text-gray-500 hover:text-gray-700"
@@ -115,7 +114,7 @@ const CourseCard = ({ course, isEnrolled }) => {
               </p>
               <div className="flex justify-end space-x-4">
                 <motion.button
-                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400"
+                  className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-400"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setShowConfirm(false)}
@@ -123,7 +122,7 @@ const CourseCard = ({ course, isEnrolled }) => {
                   Cancel
                 </motion.button>
                 <motion.button
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 focus:ring focus:ring-indigo-400"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleEnroll}
@@ -139,7 +138,7 @@ const CourseCard = ({ course, isEnrolled }) => {
       <AnimatePresence>
         {showSuccess && (
           <motion.div
-            className="fixed top-20 right-4 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 z-20"
+            className="fixed top-20 right-4 bg-green-600 text-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 z-20"
             initial={{ opacity: 0, y: -50, x: 50 }}
             animate={{ opacity: 1, y: 0, x: 0 }}
             exit={{ opacity: 0, y: -50, x: 50 }}
