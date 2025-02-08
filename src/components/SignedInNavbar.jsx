@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faComment, faCheckCircle, faFlag, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
+import { motion } from 'framer-motion';
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
-  // Example notifications data
   const notifications = [
     { id: 1, icon: faComment, text: "Selena comments on your posts about Algorithm tasks", time: "20 minutes ago", color: "text-blue-600" },
     { id: 2, icon: faCheckCircle, text: "Well done! You have submitted your tasks of JavaScript 1", time: "Yesterday", color: "text-green-600" },
@@ -42,9 +42,11 @@ const Navbar = () => {
           </button>
 
           {showDropdown && (
-            <div
+            <motion.div
               className="absolute right-0 top-full mt-2 w-80 bg-white shadow-lg rounded-lg z-50"
-              style={{ marginTop: '0.5rem' }}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
             >
               <div className="p-4">
                 {notifications.map((notification) => (
@@ -60,7 +62,7 @@ const Navbar = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           )}
 
           <Link to="/profile" className="bg-gray-100 text-gray-700 py-2 px-4 rounded-lg flex items-center space-x-2">
