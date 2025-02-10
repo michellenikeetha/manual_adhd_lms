@@ -36,7 +36,7 @@ function App() {
         <Route path="/submitted-assignments/edit-assignment" element={<EditAssignment />} />
         <Route path="/assignments/submit-assignment" element={<SubmitAssignment />} />
         <Route path="/announcements" element={<AnnouncementsPage />} />
-        <Route path="/announcements/ai-for-everyone" element={<AnnouncementDetail />} />
+        <Route path="/announcements/new-course:-ai-for-everyone" element={<AnnouncementDetail />} />
         <Route path="/my-learning" element={<MyLearning />} />
         <Route path="/my-learning/my-course" element={<MyCoursePage />} />
         <Route path="/my-learning/grades" element={<MyGrades />} />
