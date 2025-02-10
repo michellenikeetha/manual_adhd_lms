@@ -13,6 +13,8 @@ import EditAssignment from './components/EditAssignment';
 import SubmitAssignment from './components/SubmitAssignment';
 import AnnouncementsPage from './components/AnnouncementsPage';
 import AnnouncementDetail from './components/AnnouncementDetail';
+import MaintenanceDetail from "./components/AnnouncementDetail2.jsx";
+import WebinarDetail from "./components/AnnouncementDetails3.jsx";
 import MyLearning from './components/MyLearningPage';
 import MyCoursePage from './components/MyCoursePage.jsx';
 import MyGrades from "./components/MyGrades.jsx";
@@ -37,6 +39,8 @@ function App() {
         <Route path="/assignments/submit-assignment" element={<SubmitAssignment />} />
         <Route path="/announcements" element={<AnnouncementsPage />} />
         <Route path="/announcements/new-course:-ai-for-everyone" element={<AnnouncementDetail />} />
+        <Route path="/announcements/platform-maintenance" element={<MaintenanceDetail />} />
+        <Route path="/announcements/webinar:-future-of-tech" element={<WebinarDetail />} />
         <Route path="/my-learning" element={<MyLearning />} />
         <Route path="/my-learning/my-course" element={<MyCoursePage />} />
         <Route path="/my-learning/grades" element={<MyGrades />} />
