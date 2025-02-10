@@ -1,62 +1,210 @@
 // components/AnnouncementDetail.js
-import React from 'react';
-import SignedInNavbar from './SignedInNavbar';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { 
+  Calendar, 
+  Clock, 
+  Users, 
+  BookOpen, 
+  Target, 
+  Layout, 
+  Phone,
+  ChevronUp,
+  ChevronDown,
+  CheckCircle,
+  ArrowLeft,
+  Star
+} from 'lucide-react';
+import SignedInNavbar from './SignedInNavbar';
 
 const AnnouncementDetail = () => {
-  return (
-    <div>
-      <SignedInNavbar />
-      <div className="container mx-auto px-6 py-8">
-        <h1 className="text-3xl font-bold mb-4">
-          Announcements / <span className="text-blue-600">New Course: AI for Everyone</span>
-        </h1>
+  const [readSections, setReadSections] = useState(new Set());
+  const [expandedSection, setExpandedSection] = useState('overview');
+  const [focusMode, setFocusMode] = useState(false);
+
+  const markAsRead = (section) => {
+    setReadSections(prev => new Set([...prev, section]));
+  };
+
+  const Section = ({ id, title, children }) => {
+    const isExpanded = expandedSection === id;
+    const isRead = readSections.has(id);
+
+    return (
+      <div 
+        className={`mb-6 bg-white rounded-lg shadow-sm transition-all duration-200
+          ${isExpanded ? 'ring-2 ring-blue-400 shadow-lg' : 'hover:shadow-md'}
+          ${focusMode && !isExpanded ? 'opacity-50' : 'opacity-100'}
+        `}
+      >
+        <button
+          onClick={() => {
+            setExpandedSection(isExpanded ? null : id);
+            if (!isRead) markAsRead(id);
+          }}
+          className="w-full px-6 py-4 flex items-center justify-between text-left"
+        >
+          <div className="flex items-center space-x-3">
+            <h3 className="text-xl font-bold">{title}</h3>
+            {isRead && <CheckCircle className="text-green-500" size={20} />}
+          </div>
+          {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+        </button>
         
-        <div className="bg-white p-6 shadow-lg rounded-lg">
-          <h2 className="text-2xl font-bold mb-4">New Course: AI for Everyone</h2>
+        {isExpanded && (
+          <div className="px-6 pb-4 animate-fadeIn">
+            {children}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const KeyPoint = ({ icon: Icon, title, children }) => (
+    <div className="flex items-start space-x-3 mb-4">
+      <div className="rounded-full bg-blue-50 p-2 mt-1">
+        <Icon className="text-blue-500" size={20} />
+      </div>
+      <div>
+        <h4 className="font-semibold mb-1">{title}</h4>
+        {children}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className={`min-h-screen ${focusMode ? 'bg-gray-100' : 'bg-gray-50'}`}>
+      <SignedInNavbar />
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-4">
+            <Link 
+              to="/announcements"
+              className="flex items-center text-gray-600 hover:text-gray-800"
+            >
+              <ArrowLeft className="mr-2" size={20} />
+              Back to Announcements
+            </Link>
+            <h1 className="text-3xl font-bold">New Course: AI for Everyone</h1>
+          </div>
           
-          <p className="mb-6">
-            <strong>Course Overview:</strong> The "AI for Everyone" course is designed to demystify Artificial Intelligence and make it accessible to beginners with no prior experience. This course will cover the basics of AI, including key concepts, applications, and the potential impact of AI in various industries.
-          </p>
+          <button
+            onClick={() => setFocusMode(!focusMode)}
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              focusMode ? 'bg-blue-500 text-white' : 'bg-white text-gray-700'
+            }`}
+          >
+            Focus Mode
+          </button>
+        </div>
 
-          <h3 className="font-bold">What You Will Learn:</h3>
-          <ul className="list-disc list-inside mb-6">
-            <li>Introduction to AI and its importance</li>
-            <li>Understanding how AI works</li>
-            <li>Key areas of AI, including machine learning, natural language processing, and computer vision</li>
-            <li>Real-world applications of AI in different sectors</li>
-            <li>Ethical considerations in AI development and deployment</li>
-          </ul>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            <Section id="overview" title="Course Overview">
+              <p className="text-lg leading-relaxed">
+                The "AI for Everyone" course is designed to demystify Artificial Intelligence 
+                and make it accessible to beginners with no prior experience. This course will 
+                cover the basics of AI, including key concepts, applications, and the potential 
+                impact of AI in various industries.
+              </p>
+            </Section>
 
-          <h3 className="font-bold">Who Should Attend:</h3>
-          <ul className="list-disc list-inside mb-6">
-            <li>Beginners with no prior knowledge of AI</li>
-            <li>Professionals looking to understand AI fundamentals</li>
-            <li>Students interested in exploring AI as a career option</li>
-            <li>Anyone curious about the impact of AI on the future</li>
-          </ul>
+            <Section id="learning" title="What You Will Learn">
+              <div className="space-y-4">
+                <KeyPoint icon={BookOpen} title="Core Concepts">
+                  <p>Introduction to AI and its importance in today's world</p>
+                </KeyPoint>
+                <KeyPoint icon={Target} title="Practical Knowledge">
+                  <p>Understanding how AI works through real-world examples</p>
+                </KeyPoint>
+                <KeyPoint icon={Layout} title="Key Areas">
+                  <ul className="list-disc list-inside ml-4 space-y-2">
+                    <li>Machine learning fundamentals</li>
+                    <li>Natural language processing</li>
+                    <li>Computer vision applications</li>
+                  </ul>
+                </KeyPoint>
+              </div>
+            </Section>
 
-          <h3 className="font-bold">Course Format:</h3>
-          <p className="mb-6">
-            The course will be delivered online through a series of video lectures, interactive quizzes, and hands-on exercises. You will have the flexibility to learn at your own pace, with access to a community of learners and support from instructors.
-          </p>
+            <Section id="audience" title="Who Should Attend">
+              <div className="space-y-4">
+                <KeyPoint icon={Users} title="Target Audience">
+                  <ul className="list-disc list-inside ml-4 space-y-2">
+                    <li>Beginners with no prior knowledge of AI</li>
+                    <li>Professionals looking to understand AI fundamentals</li>
+                    <li>Students interested in exploring AI as a career option</li>
+                    <li>Anyone curious about the impact of AI on the future</li>
+                  </ul>
+                </KeyPoint>
+              </div>
+            </Section>
 
-          <h3 className="font-bold">Enrollment Information:</h3>
-          <ul className="list-disc list-inside mb-6">
-            <li>Course Start Date: 01/11/2024</li>
-            <li>Duration: 8 weeks</li>
-            <li>Mode: Online</li>
-            <li>Fee: Free</li>
-            <li>Registration Deadline: 10/10/2024</li>
-          </ul>
+            <Section id="format" title="Course Format">
+              <KeyPoint icon={Layout} title="Delivery Method">
+                <p>
+                  The course will be delivered online through a series of:
+                  <ul className="list-disc list-inside ml-4 mt-2 space-y-2">
+                    <li>Interactive video lectures</li>
+                    <li>Hands-on exercises</li>
+                    <li>Real-time quizzes</li>
+                    <li>Community discussions</li>
+                  </ul>
+                </p>
+              </KeyPoint>
+            </Section>
+          </div>
 
-          <p className="mb-4">
-            How to Enroll: Click <Link to="/enroll" className="text-blue-600 underline">here</Link> to register for the course. Limited spots are available, so secure your place today!
-          </p>
+          {/* Side Panel */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-6">
+              <h3 className="text-xl font-bold mb-4">Quick Information</h3>
+              
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <Calendar className="text-blue-500" size={20} />
+                  <div>
+                    <p className="font-semibold">Start Date</p>
+                    <p>January 11, 2024</p>
+                  </div>
+                </div>
 
-          <p className="text-sm text-gray-600">
-            For more information, feel free to contact us at +94 71-234-5678 / +94 77-123-4567
-          </p>
+                <div className="flex items-center space-x-3">
+                  <Clock className="text-blue-500" size={20} />
+                  <div>
+                    <p className="font-semibold">Duration</p>
+                    <p>8 weeks</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <Star className="text-blue-500" size={20} />
+                  <div>
+                    <p className="font-semibold">Fee</p>
+                    <p>Free</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <Phone className="text-blue-500" size={20} />
+                  <div>
+                    <p className="font-semibold">Contact</p>
+                    <p>+94 71-234-5678</p>
+                    <p>+94 77-123-4567</p>
+                  </div>
+                </div>
+
+                <Link
+                  to="/enroll"
+                  className="block w-full bg-blue-500 text-white text-center py-3 rounded-lg hover:bg-blue-600 transition-colors mt-6"
+                >
+                  Enroll Now
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
