@@ -10,6 +10,7 @@ import {
   X
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import SignedInNavbar from './SignedInNavbar';
 
 const getCategoryColor = (category) => {
   const colors = {
@@ -136,6 +137,7 @@ const AnnouncementsPage = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
+      <SignedInNavbar />
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col space-y-6">
           <div className="flex justify-between items-center">
