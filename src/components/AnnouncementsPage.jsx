@@ -2,38 +2,77 @@
 import React, { useState } from 'react';
 import { 
   Bell, 
-  ChevronRight, 
+  ChevronRight,
   Calendar, 
-  BookOpen, 
-  ArrowUpRight 
+  ArrowUpRight,
+  Settings,
+  Search,
+  X
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const AnnouncementCard = ({ title, date, description }) => {
+const getCategoryColor = (category) => {
+  const colors = {
+    course: 'border-green-500',
+    platform: 'border-orange-500',
+    webinar: 'border-purple-500'
+  };
+  return colors[category] || 'border-gray-300';
+};
+
+const getCategoryBadgeColor = (category) => {
+  const colors = {
+    course: 'bg-green-100 text-green-800',
+    platform: 'bg-orange-100 text-orange-800',
+    webinar: 'bg-purple-100 text-purple-800'
+  };
+  return colors[category] || 'bg-gray-100 text-gray-800';
+};
+
+const AnnouncementCard = ({ title, date, description, category, reduceMotion }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white border-2 border-blue-50 rounded-2xl p-6 shadow-lg transform transition-all hover:scale-105 hover:shadow-xl">
+    <div 
+      className={`bg-white border-l-4 ${getCategoryColor(category)} rounded-lg p-6 shadow-lg
+        ${reduceMotion ? '' : 'transition-transform duration-200'} 
+        ${isExpanded ? 'ring-2 ring-blue-400' : 'hover:shadow-xl'}`}
+    >
       <div className="flex justify-between items-center mb-4">
-        <Bell className="text-blue-500" size={32} />
+        <div className="flex items-center">
+          <Bell className="text-blue-500 mr-3" size={24} />
+          <span className={`px-3 py-1 rounded-full text-sm ${getCategoryBadgeColor(category)}`}>
+            {category}
+          </span>
+        </div>
         <span className="text-sm text-gray-500 flex items-center">
           <Calendar className="mr-2" size={16} />
-          {new Date(date).toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-          })}
+          {new Date(date).toLocaleDateString()}
         </span>
       </div>
+      
       <h3 className="text-xl font-bold text-gray-800 mb-3">{title}</h3>
-      <p className="text-gray-600 mb-4">{description}</p>
-      <button 
-        onClick={() => navigate(`/announcements/${title.toLowerCase().replace(/\s+/g, '-')}`)}
-        className="w-full flex items-center justify-center bg-blue-50 text-blue-600 py-2 rounded-lg hover:bg-blue-100 transition-colors"
-      >
-        Learn More
-        <ArrowUpRight className="ml-2" size={20} />
-      </button>
+      
+      <div className={`${isExpanded ? 'block' : 'line-clamp-2'} text-gray-600 mb-4`}>
+        {description}
+      </div>
+
+      <div className="flex space-x-3">
+        <button 
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="flex-1 flex items-center justify-center bg-gray-100 text-gray-700 py-2 rounded-lg hover:bg-gray-200 transition-colors"
+        >
+          {isExpanded ? 'Show Less' : 'Show More'}
+        </button>
+        <button 
+          onClick={() => navigate(`/announcements/${title.toLowerCase().replace(/\s+/g, '-')}`)}
+          className="flex-1 flex items-center justify-center bg-blue-50 text-blue-600 py-2 rounded-lg hover:bg-blue-100 transition-colors"
+        >
+          Learn More
+          <ArrowUpRight className="ml-2" size={20} />
+        </button>
+      </div>
     </div>
   );
 };
@@ -41,76 +80,153 @@ const AnnouncementCard = ({ title, date, description }) => {
 const AnnouncementsPage = () => {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [reduceMotion, setReduceMotion] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   const announcements = [
     {
       id: 1,
       title: 'New Course: AI for Everyone',
       date: '2024-09-01',
-      description: 'We are excited to announce a new course on Artificial Intelligence, designed for beginners.',
+      description: 'We are excited to announce a new course on Artificial Intelligence, designed for beginners. This comprehensive course covers fundamental concepts, practical applications, and hands-on exercises to help you understand AI better. Perfect for students and professionals looking to expand their knowledge.',
       category: 'course'
     },
     {
       id: 2,
       title: 'Platform Maintenance',
       date: '2024-08-25',
-      description: 'Scheduled maintenance on our platform August 12th. Please save your work, maintenance will be taking place.',
+      description: 'Scheduled maintenance on our platform August 12th. Please save your work, maintenance will be taking place from 2 AM to 4 AM EST. We recommend completing any ongoing tasks before this window.',
       category: 'platform'
     },
     {
       id: 3,
       title: 'Webinar: Future of Tech',
       date: '2024-08-20',
-      description: 'Join our upcoming webinar to discuss the future of technology and its impact on education.',
+      description: 'Join our upcoming webinar to discuss the future of technology and its impact on education. Featured speakers include leading experts in EdTech, AI, and digital transformation. Registration is required and spaces are limited.',
       category: 'webinar'
     }
   ];
 
-  const filteredAnnouncements = activeFilter === 'all' 
-    ? announcements 
-    : announcements.filter(a => a.category === activeFilter);
+  const filteredAnnouncements = announcements
+    .filter(a => activeFilter === 'all' || a.category === activeFilter)
+    .filter(a => 
+      searchTerm === '' || 
+      a.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      a.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+  const getCategoryColor = (category) => {
+    const colors = {
+      course: 'border-green-500',
+      platform: 'border-orange-500',
+      webinar: 'border-purple-500'
+    };
+    return colors[category] || 'border-gray-300';
+  };
+
+  const getCategoryBadgeColor = (category) => {
+    const colors = {
+      course: 'bg-green-100 text-green-800',
+      platform: 'bg-orange-100 text-orange-800',
+      webinar: 'bg-purple-100 text-purple-800'
+    };
+    return colors[category] || 'bg-gray-100 text-gray-800';
+  };
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <div className="container mx-auto px-6 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-extrabold text-gray-800">Announcements</h1>
-          <div className="flex space-x-2">
-            {['all', 'course', 'platform', 'webinar'].map(filter => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`px-4 py-2 rounded-full text-sm capitalize transition-colors ${
-                  activeFilter === filter 
-                    ? 'bg-blue-500 text-white' 
-                    : 'bg-gray-200 text-gray-700 hover:bg-blue-100'
-                }`}
-              >
-                {filter}
-              </button>
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col space-y-6">
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl font-bold text-gray-800">Announcements</h1>
+            <button
+              onClick={() => setShowSettings(!showSettings)}
+              className="p-2 rounded-lg hover:bg-gray-200"
+              aria-label="Settings"
+            >
+              <Settings size={24} />
+            </button>
+          </div>
+
+          {showSettings && (
+            <div className="bg-white p-4 rounded-lg shadow-lg">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-semibold">Display Settings</h2>
+                <button
+                  onClick={() => setShowSettings(false)}
+                  className="p-1 hover:bg-gray-100 rounded"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="flex items-center space-x-4">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={reduceMotion}
+                    onChange={(e) => setReduceMotion(e.target.checked)}
+                    className="form-checkbox h-5 w-5 text-blue-500"
+                  />
+                  <span>Reduce animations</span>
+                </label>
+              </div>
+            </div>
+          )}
+
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+            <div className="relative w-full sm:w-64">
+              <input
+                type="text"
+                placeholder="Search announcements..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              />
+              <Search className="absolute left-3 top-2.5 text-gray-400" size={20} />
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {['all', 'course', 'platform', 'webinar'].map(filter => (
+                <button
+                  key={filter}
+                  onClick={() => setActiveFilter(filter)}
+                  className={`px-4 py-2 rounded-lg text-sm capitalize transition-colors
+                    ${activeFilter === filter 
+                      ? 'bg-blue-500 text-white' 
+                      : 'bg-white text-gray-700 hover:bg-blue-50'}`}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {filteredAnnouncements.map((announcement) => (
+              <AnnouncementCard
+                key={announcement.id}
+                {...announcement}
+                reduceMotion={reduceMotion}
+              />
             ))}
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredAnnouncements.map((announcement) => (
-            <AnnouncementCard
-              key={announcement.id}
-              title={announcement.title}
-              date={announcement.date}
-              description={announcement.description}
-            />
-          ))}
-        </div>
+          {filteredAnnouncements.length === 0 && (
+            <div className="text-center py-8">
+              <p className="text-gray-600">No announcements found matching your criteria.</p>
+            </div>
+          )}
 
-        <div className="mt-8 flex justify-center">
-          <button 
-            onClick={() => navigate('/announcements/older-announcements')}
-            className="flex items-center bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
-          >
-            See Older Announcements
-            <ChevronRight className="ml-2" size={20} />
-          </button>
+          <div className="flex justify-center mt-8">
+            <button 
+              onClick={() => navigate('/announcements/older-announcements')}
+              className="flex items-center bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              See Older Announcements
+              <ChevronRight className="ml-2" size={20} />
+            </button>
+          </div>
         </div>
       </div>
     </div>
