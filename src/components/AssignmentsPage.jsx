@@ -7,8 +7,6 @@ import {
   Clock,
   CheckSquare,
   Filter,
-  Sun,
-  Moon,
   Eye,
   EyeOff
 } from 'lucide-react';
@@ -39,7 +37,6 @@ const assignments = [
 
 const AssignmentsPage = () => {
   const [focusMode, setFocusMode] = useState(false);
-  const [colorMode, setColorMode] = useState('light');
   const [hoveredAssignment, setHoveredAssignment] = useState(null);
   const [filterVisible, setFilterVisible] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState('all');
@@ -51,16 +48,11 @@ const AssignmentsPage = () => {
     : assignments.filter(a => a.courseCode === selectedCourse);
 
   const getBackgroundColor = () => {
-    if (colorMode === 'light') return focusMode ? 'bg-gray-100' : 'bg-white';
-    return focusMode ? 'bg-gray-900' : 'bg-gray-800';
-  };
-
-  const getTextColor = () => {
-    return colorMode === 'light' ? 'text-gray-900' : 'text-white';
+    return focusMode ? 'bg-gray-100' : 'bg-white';
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${getBackgroundColor()} ${getTextColor()}`}>
+    <div className={`min-h-screen transition-colors duration-300 ${getBackgroundColor()}`}>
       <SignedInNavbar />
       <div className="container mx-auto px-6 py-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 space-y-4 md:space-y-0">
@@ -90,15 +82,6 @@ const AssignmentsPage = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setColorMode(colorMode === 'light' ? 'dark' : 'light')}
-              className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700"
-            >
-              {colorMode === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               onClick={() => setFilterVisible(!filterVisible)}
               className={`p-2 rounded-lg ${filterVisible ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
             >
@@ -115,13 +98,13 @@ const AssignmentsPage = () => {
               exit={{ height: 0, opacity: 0 }}
               className="mb-6"
             >
-              <div className="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg">
+              <div className="p-4 bg-blue-50 rounded-lg">
                 <h3 className="font-semibold mb-2">Filter by Course</h3>
                 <div className="flex flex-wrap gap-2">
                   <button
                     onClick={() => setSelectedCourse('all')}
                     className={`px-3 py-1 rounded-full text-sm transition-colors
-                      ${selectedCourse === 'all' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-600'}`}
+                      ${selectedCourse === 'all' ? 'bg-blue-500 text-white' : 'bg-white'}`}
                   >
                     All
                   </button>
@@ -130,7 +113,7 @@ const AssignmentsPage = () => {
                       key={course}
                       onClick={() => setSelectedCourse(course)}
                       className={`px-3 py-1 rounded-full text-sm transition-colors
-                        ${selectedCourse === course ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-600'}`}
+                        ${selectedCourse === course ? 'bg-blue-500 text-white' : 'bg-white'}`}
                     >
                       {course}
                     </button>
@@ -162,7 +145,6 @@ const AssignmentsPage = () => {
               >
                 <AssignmentCard 
                   assignment={assignment}
-                  colorMode={colorMode}
                 />
               </motion.div>
             ))}
