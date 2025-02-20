@@ -10,7 +10,8 @@ import {
   Eye,
   EyeOff,
   Edit,
-  CheckCircle
+  CheckCircle,
+  BookOpen
 } from 'lucide-react';
 
 const SubmittedAssignments = () => {
@@ -64,7 +65,6 @@ const SubmittedAssignments = () => {
   };
 
   const calculateSubmissionTiming = (dueDate, submittedDate) => {
-    // This is a simplified calculation - in a real app, you'd use proper date manipulation
     if (dueDate.includes('11') && submittedDate.includes('9')) return 'early';
     if (dueDate.includes('18') && submittedDate.includes('16')) return 'early';
     if (dueDate.includes('25') && submittedDate.includes('23')) return 'early';
@@ -182,8 +182,10 @@ const SubmittedAssignments = () => {
                         <CheckCircle className="text-green-500 mt-1 mr-2" size={20} />
                         <div>
                           <h2 className="text-xl font-bold">{assignment.title}</h2>
-                          <p className="text-gray-600 text-sm mb-2">{assignment.courseCode} - {assignment.courseName}</p>
-                        </div>
+                          <div className="flex items-center">
+                            <BookOpen size={16} className="text-gray-500 mr-1" />
+                            <p className="text-gray-600 text-sm">{assignment.courseCode} - {assignment.courseName}</p>
+                          </div>                        </div>
                       </div>
                       
                       <div className="mt-4 space-y-2">
