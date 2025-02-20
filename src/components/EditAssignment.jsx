@@ -24,7 +24,6 @@ const EditAssignment = () => {
     maxFiles: 10,
   });
 
-  // Calculate time remaining until due date
   useEffect(() => {
     const calculateTimeRemaining = () => {
       const dueDate = new Date('August 11, 2025 23:59:00');
@@ -53,7 +52,6 @@ const EditAssignment = () => {
       setIsSaving(false);
       setShowFeedback({ type: 'success', message: 'Changes saved successfully!' });
       
-      // Automatically dismiss feedback after 5 seconds
       setTimeout(() => {
         setShowFeedback(null);
       }, 5000);
@@ -89,7 +87,6 @@ const EditAssignment = () => {
       <SignedInNavbar />
       
       <div className="container mx-auto px-6 py-8">
-        {/* Focus mode toggle and breadcrumb navigation */}
         <div className="flex justify-between items-center mb-6">
           <button 
             onClick={() => navigate('/submitted-assignments')}
@@ -111,20 +108,18 @@ const EditAssignment = () => {
           </button>
         </div>
 
-        {/* Main heading with visual indicator */}
         <div className="flex items-center mb-8">
           <h1 className={`text-3xl font-bold ${focusMode ? 'text-white' : 'text-gray-800'}`}>
             Edit Your Assignment
           </h1>
-          <div className="ml-4 flex-1 max-w-xs">
+          {/* <div className="ml-4 flex-1 max-w-xs">
             <div className="h-2 bg-gray-200 rounded-full">
               <div className="h-full bg-green-500 rounded-full w-3/4"></div>
             </div>
             <p className={`text-xs mt-1 ${focusMode ? 'text-gray-400' : 'text-gray-500'}`}>Task Progress: 75% complete</p>
-          </div>
+          </div> */}
         </div>
 
-        {/* Feedback notification */}
         {showFeedback && (
           <div
             className="fixed top-20 right-4 px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 z-20 animate-bounce-once"
@@ -149,7 +144,6 @@ const EditAssignment = () => {
               ? 'bg-gray-800 border-gray-700 text-white' 
               : 'bg-white border-blue-50 text-gray-800'
           }`}>
-            {/* Assignment header with visual cues */}
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
               <div className="flex items-center">
                 <div className={`w-4 h-16 rounded-full mr-4 ${assignment.daysEarly > 0 ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
@@ -170,7 +164,6 @@ const EditAssignment = () => {
               </div>
             </div>
 
-            {/* File details with clear visual grouping */}
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               <div className={`flex items-center space-x-4 p-6 rounded-lg transition-colors ${
                 focusMode ? 'bg-gray-700' : 'bg-blue-50'
@@ -218,7 +211,6 @@ const EditAssignment = () => {
               </div>
             </div>
 
-            {/* Submission details with improved readability */}
             <div className={`mt-6 p-6 rounded-lg mb-8 transition-colors ${
               focusMode ? 'bg-gray-700' : 'bg-gray-100'
             }`}>
@@ -259,7 +251,6 @@ const EditAssignment = () => {
               </div>
             </div>
 
-            {/* Action buttons with clear visual hierarchy */}
             <div className="grid md:grid-cols-3 gap-4">
               <button
                 className="flex items-center justify-center bg-blue-500 text-white py-4 rounded-xl hover:bg-blue-600 transition-colors font-medium text-lg shadow-lg hover:shadow-xl"
@@ -298,7 +289,6 @@ const EditAssignment = () => {
         )}
       </div>
 
-      {/* Confirmation modal with high contrast */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 backdrop-blur-sm">
           <div className={`p-8 rounded-2xl shadow-2xl max-w-md w-full transition-all ${
