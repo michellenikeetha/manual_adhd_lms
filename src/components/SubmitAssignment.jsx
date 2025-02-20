@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, FileText, X, CheckCircle2, CheckCircle, Moon, Sun, Clock, Info, Sparkles } from 'lucide-react';
+import { Upload, FileText, X, CheckCircle2, CheckCircle, Eye, EyeOff, Info, Sparkles } from 'lucide-react';
 import SignedInNavbar from './SignedInNavbar';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +9,6 @@ const SubmitAssignment = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [focusMode, setFocusMode] = useState(false);
-  const [timeReminder, setTimeReminder] = useState('');
   const [stepProgress, setStepProgress] = useState(1);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
@@ -22,22 +21,6 @@ const SubmitAssignment = () => {
     dueDate: '10 September 2023',
     dueTime: '11:59 PM',
   };
-
-  useEffect(() => {
-    // Set time reminder every minute
-    const interval = setInterval(() => {
-      const now = new Date();
-      const minutes = now.getMinutes() < 10 ? `0${now.getMinutes()}` : now.getMinutes();
-      setTimeReminder(`${now.getHours()}:${minutes}`);
-    }, 60000);
-    
-    // Set initial time
-    const now = new Date();
-    const minutes = now.getMinutes() < 10 ? `0${now.getMinutes()}` : now.getMinutes();
-    setTimeReminder(`${now.getHours()}:${minutes}`);
-    
-    return () => clearInterval(interval);
-  }, []);
 
   const handleFileDrop = (e) => {
     e.preventDefault();
@@ -91,6 +74,10 @@ const SubmitAssignment = () => {
     setFocusMode(!focusMode);
   };
 
+  const getBackgroundColor = () => {
+    return focusMode ? 'bg-gray-100' : 'bg-white';
+  };
+
   const renderProgressBar = () => {
     return (
       <div className="mb-8">
@@ -112,12 +99,12 @@ const SubmitAssignment = () => {
   };
 
   return (
-    <div className={`min-h-screen transition-all duration-300 ${focusMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+    <div className={`min-h-screen transition-colors duration-300 ${focusMode ? 'bg-gray-100' : 'bg-gray-50'}`}>
       <SignedInNavbar />
       <div className="container mx-auto px-6 py-8">
         <div className="flex justify-between items-center mb-4">
           <motion.h1 
-            className={`text-3xl font-bold ${focusMode ? 'text-white' : 'text-gray-800'}`}
+            className="text-3xl font-bold text-gray-800"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -126,21 +113,24 @@ const SubmitAssignment = () => {
           </motion.h1>
           
           <div className="flex items-center space-x-4">
-            <motion.div 
-              className={`px-3 py-1 rounded-lg ${focusMode ? 'bg-gray-800 text-white' : 'bg-blue-100 text-blue-800'}`}
-              whileHover={{ scale: 1.05 }}
-            >
-              <Clock size={16} className="inline mr-2" />
-              <span>{timeReminder}</span>
-            </motion.div>
-            
             <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={toggleFocusMode}
-              className={`p-2 rounded-full ${focusMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-white'}`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors
+                ${focusMode ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-500'}`}
             >
-              {focusMode ? <Sun size={20} /> : <Moon size={20} />}
+              {focusMode ? (
+                <>
+                  <EyeOff size={20} />
+                  <span>Focus Mode</span>
+                </>
+              ) : (
+                <>
+                  <Eye size={20} />
+                  <span>Normal Mode</span>
+                </>
+              )}
             </motion.button>
           </div>
         </div>
@@ -150,7 +140,7 @@ const SubmitAssignment = () => {
         <motion.div 
           className={`p-8 rounded-2xl shadow-xl border-2 max-w-4xl mx-auto transition-all duration-300 ${
             focusMode 
-              ? 'border-blue-700 bg-gray-800 text-white' 
+              ? 'border-blue-200 bg-white' 
               : 'border-blue-50 bg-white text-gray-800'
           }`}
           initial={{ opacity: 0, y: 20 }}
@@ -159,14 +149,14 @@ const SubmitAssignment = () => {
         >
           <div className="flex items-center justify-between mb-6">
             <motion.h2 
-              className={`text-2xl font-bold ${focusMode ? 'text-blue-300' : 'text-blue-800'}`}
+              className="text-2xl font-bold text-blue-800"
               whileHover={{ scale: 1.02 }}
             >
               {assignmentDetails.title}
             </motion.h2>
             
             <motion.div 
-              className={`px-3 py-1 rounded-lg ${focusMode ? 'bg-red-900 text-white' : 'bg-red-100 text-red-800'}`}
+              className="px-3 py-1 rounded-lg bg-red-100 text-red-800"
               whileHover={{ scale: 1.05 }}
             >
               Due: {assignmentDetails.dueDate} at {assignmentDetails.dueTime}
@@ -177,9 +167,7 @@ const SubmitAssignment = () => {
             className={`border-2 border-dashed p-8 rounded-2xl mb-6 text-center transition-all duration-300 ${
               isDragging 
                 ? 'border-blue-500 bg-blue-50' 
-                : focusMode 
-                  ? 'border-gray-600 bg-gray-700' 
-                  : 'border-gray-300 bg-gray-100'
+                : 'border-gray-300 bg-gray-100'
             }`}
             onDrop={handleFileDrop}
             onDragOver={handleDragOver}
@@ -214,19 +202,17 @@ const SubmitAssignment = () => {
                       repeatType: "reverse"
                     }}
                   >
-                    <Upload className={`mb-4 ${focusMode ? 'text-blue-300' : 'text-blue-400'}`} size={64} />
+                    <Upload className="mb-4 text-blue-400" size={64} />
                   </motion.div>
                   
-                  <p className={`mb-4 text-lg ${focusMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  <p className="mb-4 text-lg text-gray-600">
                     Drag & Drop your files here
                   </p>
-                  <p className={`mb-4 ${focusMode ? 'text-gray-400' : 'text-gray-500'}`}>or</p>
+                  <p className="mb-4 text-gray-500">or</p>
                   
                   <motion.button 
                     onClick={() => fileInputRef.current.click()}
-                    className={`px-6 py-3 rounded-lg transition-colors flex items-center ${
-                      focusMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'
-                    } text-white`}
+                    className="px-6 py-3 rounded-lg transition-colors flex items-center bg-blue-500 hover:bg-blue-600 text-white"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -241,7 +227,7 @@ const SubmitAssignment = () => {
                   exit={{ opacity: 0 }}
                   key="filelist"
                 >
-                  <h3 className={`text-lg font-semibold mb-4 ${focusMode ? 'text-blue-300' : 'text-blue-800'}`}>
+                  <h3 className="text-lg font-semibold mb-4 text-blue-800">
                     Files Ready for Submission
                   </h3>
                   
@@ -250,9 +236,7 @@ const SubmitAssignment = () => {
                       {selectedFiles.map((file, index) => (
                         <motion.div 
                           key={index} 
-                          className={`flex items-center justify-between p-3 rounded-lg shadow-sm ${
-                            focusMode ? 'bg-gray-600' : 'bg-white'
-                          }`}
+                          className="flex items-center justify-between p-3 rounded-lg shadow-sm bg-white"
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: 20 }}
@@ -265,14 +249,14 @@ const SubmitAssignment = () => {
                             >
                               <CheckCircle2 className="text-green-500 mr-2" size={20} />
                             </motion.div>
-                            <span className={focusMode ? 'text-gray-200' : 'text-gray-700'}>
+                            <span className="text-gray-700">
                               {file.name}
                             </span>
                           </div>
                           
                           <motion.button 
                             onClick={() => handleFileRemove(index)}
-                            className={`${focusMode ? 'text-red-400 hover:text-red-300' : 'text-red-500 hover:text-red-600'}`}
+                            className="text-red-500 hover:text-red-600"
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                           >
@@ -286,11 +270,7 @@ const SubmitAssignment = () => {
                   <div className="mt-4 flex justify-center space-x-4">
                     <motion.button 
                       onClick={() => fileInputRef.current.click()}
-                      className={`px-4 py-2 rounded-lg transition-colors ${
-                        focusMode 
-                          ? 'bg-blue-800 text-blue-100 hover:bg-blue-700' 
-                          : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-                      }`}
+                      className="px-4 py-2 rounded-lg transition-colors bg-blue-100 text-blue-700 hover:bg-blue-200"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -303,22 +283,20 @@ const SubmitAssignment = () => {
           </motion.div>
 
           <motion.div 
-            className={`p-4 rounded-lg mb-6 ${
-              focusMode ? 'bg-gray-700' : 'bg-gray-100'
-            }`}
+            className="p-4 rounded-lg mb-6 bg-gray-100"
             whileHover={{ scale: 1.02 }}
           >
             <div className="flex items-center mb-2">
-              <Info size={18} className={focusMode ? 'text-blue-300 mr-2' : 'text-blue-600 mr-2'} />
+              <Info size={18} className="text-blue-600 mr-2" />
               <h3 className="text-lg font-semibold">Submission Guidelines</h3>
             </div>
             
             <div className="grid grid-cols-3 gap-4 text-center">
               <motion.div 
                 whileHover={{ scale: 1.05 }}
-                className={`p-2 rounded-lg ${focusMode ? 'bg-gray-800' : 'bg-white'}`}
+                className="p-2 rounded-lg bg-white"
               >
-                <strong className={`block mb-1 ${focusMode ? 'text-blue-300' : 'text-blue-600'}`}>
+                <strong className="block mb-1 text-blue-600">
                   Max File Size
                 </strong>
                 {assignmentDetails.maxFileSize}
@@ -326,9 +304,9 @@ const SubmitAssignment = () => {
               
               <motion.div 
                 whileHover={{ scale: 1.05 }}
-                className={`p-2 rounded-lg ${focusMode ? 'bg-gray-800' : 'bg-white'}`}
+                className="p-2 rounded-lg bg-white"
               >
-                <strong className={`block mb-1 ${focusMode ? 'text-blue-300' : 'text-blue-600'}`}>
+                <strong className="block mb-1 text-blue-600">
                   Max Files
                 </strong>
                 {assignmentDetails.maxFiles}
@@ -336,9 +314,9 @@ const SubmitAssignment = () => {
               
               <motion.div 
                 whileHover={{ scale: 1.05 }}
-                className={`p-2 rounded-lg ${focusMode ? 'bg-gray-800' : 'bg-white'}`}
+                className="p-2 rounded-lg bg-white"
               >
-                <strong className={`block mb-1 ${focusMode ? 'text-blue-300' : 'text-blue-600'}`}>
+                <strong className="block mb-1 text-blue-600">
                   File Types
                 </strong>
                 {assignmentDetails.allowedFileTypes.join(', ')}
@@ -363,9 +341,7 @@ const SubmitAssignment = () => {
             </motion.button>
             
             <motion.button 
-              className={`flex-1 flex items-center justify-center py-3 rounded-lg text-white ${
-                focusMode ? 'bg-gray-600 hover:bg-gray-700' : 'bg-gray-500 hover:bg-gray-600'
-              }`}
+              className="flex-1 flex items-center justify-center py-3 rounded-lg text-white bg-gray-500 hover:bg-gray-600"
               onClick={() => navigate("/assignments")}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
@@ -376,24 +352,21 @@ const SubmitAssignment = () => {
           </div>
         </motion.div>
 
-        <AnimatePresence>
-          {focusMode && (
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 50 }}
-              className="fixed bottom-4 left-0 right-0 mx-auto max-w-sm bg-blue-600 text-white px-4 py-3 rounded-xl shadow-lg"
-            >
-              <div className="flex items-center">
-                <Sparkles className="mr-2" size={20} />
-                <span className="font-medium">Focus Mode Active:</span>
-              </div>
-              <p className="text-sm mt-1">
-                Take your time. Break this task into small steps. Just focus on choosing your files first.
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {focusMode && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: [0.7, 1, 0.7],
+              transition: { repeat: Infinity, duration: 4 }
+            }}
+            className="fixed bottom-6 left-6 bg-white p-3 rounded-lg shadow-lg max-w-xs"
+          >
+            <div className="text-sm text-gray-600">
+              <span className="font-medium block mb-1">Focus Tip:</span>
+              Break down this submission into smaller steps. Take your time to select the right files and review them carefully.
+            </div>
+          </motion.div>
+        )}
 
         <AnimatePresence>
           {showSuccess && (
