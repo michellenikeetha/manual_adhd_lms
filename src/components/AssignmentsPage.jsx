@@ -168,7 +168,7 @@ const AssignmentsPage = () => {
                     focusMode && hoveredAssignment !== index ? 'opacity-50' : 'opacity-100'
                   }`}
                 >
-                  <div className={`bg-white p-6 rounded-lg shadow-lg flex flex-col md:flex-row justify-between border-l-4 ${priority.color}`}>
+                  <div className={`p-6 rounded-lg shadow-lg flex flex-col md:flex-row justify-between border-l-4 ${priority.color} ${priority.bgColor}`}>
                     <div className="flex-1">
                       <div className="flex items-start">
                         <FileText className="text-blue-500 mt-1 mr-2" size={20} />
