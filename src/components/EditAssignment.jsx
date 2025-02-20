@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Save, Trash2, X, FileText, Clock, Calendar, Loader, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Save, Trash2, X, FileText, Clock, Calendar, Loader, CheckCircle, AlertTriangle, ChevronLeft } from 'lucide-react';
 import SignedInNavbar from './SignedInNavbar';
 import pdfimg from '../assets/pdf.png';
 import { useNavigate } from 'react-router-dom';
@@ -9,8 +9,10 @@ const EditAssignment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
-  const [showFeedback, setShowFeedback] = useState(null); 
+  const [showFeedback, setShowFeedback] = useState(null);
   const [isRemoved, setIsRemoved] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(null);
+  const [focusMode, setFocusMode] = useState(false);
   const [assignment, setAssignment] = useState({
     title: 'Assignment 2',
     fileName: '20200742-assignment2.pdf',
@@ -21,6 +23,23 @@ const EditAssignment = () => {
     allowedFileTypes: ['PDF', 'DOCX'],
     maxFiles: 10,
   });
+
+  // Calculate time remaining until due date
+  useEffect(() => {
+    const calculateTimeRemaining = () => {
+      const dueDate = new Date('August 11, 2025 23:59:00');
+      const now = new Date();
+      const diff = dueDate - now;
+      
+      if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        setTimeRemaining({ days, hours });
+      }
+    };
+    
+    calculateTimeRemaining();
+  }, []);
 
   const handleInputChange = (field, value) => {
     setAssignment((prev) => ({ ...prev, [field]: value }));
@@ -33,6 +52,11 @@ const EditAssignment = () => {
     setTimeout(() => {
       setIsSaving(false);
       setShowFeedback({ type: 'success', message: 'Changes saved successfully!' });
+      
+      // Automatically dismiss feedback after 5 seconds
+      setTimeout(() => {
+        setShowFeedback(null);
+      }, 5000);
     }, 2000);
   };
 
@@ -56,148 +80,264 @@ const EditAssignment = () => {
     }, 3000);
   };
 
-  return (
-    <div className="bg-gray-50 min-h-screen">
-      <SignedInNavbar />
-      <div className="container mx-auto px-6 py-8">
-        <h1 className="text-3xl font-bold mb-8 text-gray-800">Edit Your Assignment</h1>
+  const toggleFocusMode = () => {
+    setFocusMode(prev => !prev);
+  };
 
-        {/* {showFeedback && (
-          <div
-            className={`p-4 rounded-lg mb-4 ${
-              showFeedback.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+  return (
+    <div className={`min-h-screen transition-all duration-300 ${focusMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      <SignedInNavbar />
+      
+      <div className="container mx-auto px-6 py-8">
+        {/* Focus mode toggle and breadcrumb navigation */}
+        <div className="flex justify-between items-center mb-6">
+          <button 
+            onClick={() => navigate('/submitted-assignments')}
+            className="flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors"
+          >
+            <ChevronLeft className="mr-1" size={20} />
+            Back to Assignments
+          </button>
+          
+          <button
+            onClick={toggleFocusMode}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              focusMode 
+                ? 'bg-yellow-500 text-gray-900 hover:bg-yellow-400' 
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
           >
-            {showFeedback.message}
-          </div>
-        )} */}
+            {focusMode ? 'Exit Focus Mode' : 'Enter Focus Mode'}
+          </button>
+        </div>
 
+        {/* Main heading with visual indicator */}
+        <div className="flex items-center mb-8">
+          <h1 className={`text-3xl font-bold ${focusMode ? 'text-white' : 'text-gray-800'}`}>
+            Edit Your Assignment
+          </h1>
+          <div className="ml-4 flex-1 max-w-xs">
+            <div className="h-2 bg-gray-200 rounded-full">
+              <div className="h-full bg-green-500 rounded-full w-3/4"></div>
+            </div>
+            <p className={`text-xs mt-1 ${focusMode ? 'text-gray-400' : 'text-gray-500'}`}>Task Progress: 75% complete</p>
+          </div>
+        </div>
+
+        {/* Feedback notification */}
         {showFeedback && (
           <div
-            className={`fixed top-20 right-4 px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 z-20 ${
-              showFeedback.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-100 text-red-800'
-            }`}
+            className="fixed top-20 right-4 px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 z-20 animate-bounce-once"
+            style={{animation: 'bounce 0.5s ease 2'}}
           >
-            {showFeedback.type === 'success' ? (
-              <CheckCircle className="w-5 h-5" />
-            ) : (
-              <X className="w-5 h-5" />
-            )}
-            {showFeedback.message}
+            <div className={`${
+              showFeedback.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+            } p-4 rounded-xl flex items-center`}>
+              {showFeedback.type === 'success' ? (
+                <CheckCircle className="w-5 h-5 mr-2" />
+              ) : (
+                <AlertTriangle className="w-5 h-5 mr-2" />
+              )}
+              <span className="font-medium">{showFeedback.message}</span>
+            </div>
           </div>
         )}
 
         {!isRemoved && (
-          <div className="bg-white p-10 rounded-2xl shadow-xl border-2 border-blue-50 max-w-6xl mx-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-blue-800">{assignment.title}</h2>
-              <div className="flex space-x-2">
-                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
-                  Submitted Early
+          <div className={`p-8 rounded-2xl shadow-xl border-2 max-w-6xl mx-auto transition-all duration-300 ${
+            focusMode 
+              ? 'bg-gray-800 border-gray-700 text-white' 
+              : 'bg-white border-blue-50 text-gray-800'
+          }`}>
+            {/* Assignment header with visual cues */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+              <div className="flex items-center">
+                <div className={`w-4 h-16 rounded-full mr-4 ${assignment.daysEarly > 0 ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+                <h2 className="text-2xl font-bold text-blue-500">{assignment.title}</h2>
+              </div>
+              <div className="flex flex-col md:flex-row md:items-center gap-2">
+                <span className="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold">
+                  Submitted Early ✓
                 </span>
+                {timeRemaining && (
+                  <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${
+                    focusMode ? 'bg-blue-900 text-blue-100' : 'bg-blue-50 text-blue-800'
+                  }`}>
+                    <Clock size={16} />
+                    <span>Due: {timeRemaining.days}d {timeRemaining.hours}h remaining</span>
+                  </div>
+                )}
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="flex items-center space-x-4 bg-blue-50 p-4 rounded-lg">
-                <img src={pdfimg} alt="PDF Icon" className="w-25 h-20" />
+            {/* File details with clear visual grouping */}
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className={`flex items-center space-x-4 p-6 rounded-lg transition-colors ${
+                focusMode ? 'bg-gray-700' : 'bg-blue-50'
+              }`}>
+                <img src={pdfimg} alt="PDF Icon" className="w-20 h-20" />
                 <div>
-                  <p className="flex items-center">
-                    <FileText className="mr-2 text-blue-600" size={20} />
+                  <label className={`block mb-1 font-medium ${focusMode ? 'text-gray-300' : 'text-gray-600'}`}>File Name:</label>
+                  <p className="flex items-center mb-3">
+                    <FileText className={`mr-2 ${focusMode ? 'text-blue-400' : 'text-blue-600'}`} size={20} />
                     <input
                       type="text"
                       value={assignment.fileName}
                       onChange={(e) => handleInputChange('fileName', e.target.value)}
-                      className="bg-transparent border-b-2 border-blue-100 focus:border-blue-500 focus:outline-none text-gray-800"
+                      className={`border-b-2 focus:outline-none transition-colors ${
+                        focusMode 
+                          ? 'bg-transparent border-gray-600 focus:border-blue-400 text-white' 
+                          : 'bg-transparent border-blue-100 focus:border-blue-500 text-gray-800'
+                      }`}
+                      aria-label="File name"
                     />
                   </p>
+                  <label className={`block mb-1 font-medium ${focusMode ? 'text-gray-300' : 'text-gray-600'}`}>Submission Date:</label>
                   <p className="flex items-center">
-                    <Clock className="mr-2 text-blue-600" size={20} />
-                    <strong className="mr-2">Submitted: </strong> {assignment.submittedDate}
+                    <Clock className={`mr-2 ${focusMode ? 'text-blue-400' : 'text-blue-600'}`} size={20} />
+                    <span>{assignment.submittedDate}</span>
                   </p>
                 </div>
               </div>
 
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <p className="flex items-center mb-2">
-                  <Calendar className="mr-2 text-blue-600" size={20} />
-                  <strong className="mr-2">Due Date:</strong> {assignment.dueDate}
+              <div className={`p-6 rounded-lg flex flex-col justify-center transition-colors ${
+                focusMode ? 'bg-gray-700' : 'bg-blue-50'
+              }`}>
+                <label className={`block mb-1 font-medium ${focusMode ? 'text-gray-300' : 'text-gray-600'}`}>Due Date:</label>
+                <p className="flex items-center mb-4">
+                  <Calendar className={`mr-2 ${focusMode ? 'text-blue-400' : 'text-blue-600'}`} size={20} />
+                  <span>{assignment.dueDate}</span>
                 </p>
-                <p className="text-green-700 font-semibold">
-                  Submitted {assignment.daysEarly} days early
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-6 bg-gray-100 p-4 rounded-lg">
-              <h3 className="text-lg font-semibold mb-2">Submission Details</h3>
-              <div className="grid grid-cols-3 gap-4 text-center">
-                <div>
-                  <strong className="block text-blue-600">Max File Size</strong>
-                  {assignment.fileSize}
-                </div>
-                <div>
-                  <strong className="block text-blue-600">Max Files</strong>
-                  {assignment.maxFiles}
-                </div>
-                <div>
-                  <strong className="block text-blue-600">File Types</strong>
-                  {assignment.allowedFileTypes.join(', ')}
+                
+                <div className={`flex items-center gap-2 ${
+                  assignment.daysEarly > 0 ? 'text-green-500' : 'text-yellow-500'
+                } font-semibold text-lg`}>
+                  <CheckCircle size={20} />
+                  <span>Submitted {assignment.daysEarly} days early</span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-8 flex space-x-4">
+            {/* Submission details with improved readability */}
+            <div className={`mt-6 p-6 rounded-lg mb-8 transition-colors ${
+              focusMode ? 'bg-gray-700' : 'bg-gray-100'
+            }`}>
+              <h3 className={`text-lg font-semibold mb-4 ${focusMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                Submission Requirements
+              </h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className={`p-4 rounded-lg text-center transition-colors ${
+                  focusMode ? 'bg-gray-800' : 'bg-white'
+                }`}>
+                  <strong className={`block text-lg mb-2 ${focusMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                    Maximum File Size
+                  </strong>
+                  <span className="text-2xl font-bold">{assignment.fileSize}</span>
+                </div>
+                <div className={`p-4 rounded-lg text-center transition-colors ${
+                  focusMode ? 'bg-gray-800' : 'bg-white'
+                }`}>
+                  <strong className={`block text-lg mb-2 ${focusMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                    Maximum Files
+                  </strong>
+                  <span className="text-2xl font-bold">{assignment.maxFiles}</span>
+                </div>
+                <div className={`p-4 rounded-lg text-center transition-colors ${
+                  focusMode ? 'bg-gray-800' : 'bg-white'
+                }`}>
+                  <strong className={`block text-lg mb-2 ${focusMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                    Allowed File Types
+                  </strong>
+                  <div className="flex justify-center gap-2">
+                    {assignment.allowedFileTypes.map(type => (
+                      <span key={type} className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-medium">
+                        {type}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Action buttons with clear visual hierarchy */}
+            <div className="grid md:grid-cols-3 gap-4">
               <button
-                className="flex-1 flex items-center justify-center bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors"
+                className="flex items-center justify-center bg-blue-500 text-white py-4 rounded-xl hover:bg-blue-600 transition-colors font-medium text-lg shadow-lg hover:shadow-xl"
                 onClick={handleSaveChanges}
                 disabled={isSaving}
               >
                 {isSaving ? (
-                  <Loader className="animate-spin mr-2" size={20} />
+                  <Loader className="animate-spin mr-3" size={24} />
                 ) : (
-                  <Save className="mr-2" size={20} />
+                  <Save className="mr-3" size={24} />
                 )}
-                {isSaving ? 'Saving...' : 'Save Changes'}
+                <span>{isSaving ? 'Saving...' : 'Save Changes'}</span>
               </button>
+              
               <button
-                className="flex-1 flex items-center justify-center bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 transition-colors"
+                className="flex items-center justify-center bg-red-500 text-white py-4 rounded-xl hover:bg-red-600 transition-colors font-medium text-lg shadow-lg hover:shadow-xl"
                 onClick={handleRemoveSubmission}
               >
-                <Trash2 className="mr-2" size={20} />
-                Remove Submission
+                <Trash2 className="mr-3" size={24} />
+                <span>Remove Submission</span>
               </button>
+              
               <button
-                className="flex-1 flex items-center justify-center bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition-colors"
+                className={`flex items-center justify-center py-4 rounded-xl transition-colors font-medium text-lg shadow-lg hover:shadow-xl ${
+                  focusMode 
+                    ? 'bg-gray-600 text-white hover:bg-gray-500' 
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
                 onClick={() => navigate('/submitted-assignments')}
               >
-                <X className="mr-2" size={20} />
-                Cancel
+                <X className="mr-3" size={24} />
+                <span>Cancel</span>
               </button>
             </div>
           </div>
         )}
       </div>
 
+      {/* Confirmation modal with high contrast */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full">
-            <h2 className="text-2xl font-bold mb-4 text-red-600">Remove Submission</h2>
-            <p className="mb-6">Are you sure you want to remove this submission? This action cannot be undone.</p>
-            <div className="flex space-x-4">
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 backdrop-blur-sm">
+          <div className={`p-8 rounded-2xl shadow-2xl max-w-md w-full transition-all ${
+            focusMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'
+          }`}>
+            <div className="flex items-center mb-6">
+              <AlertTriangle size={28} className="text-red-500 mr-4" />
+              <h2 className="text-2xl font-bold text-red-500">Remove Submission</h2>
+            </div>
+            
+            <p className="mb-8 text-lg leading-relaxed">
+              Are you sure you want to remove this submission? 
+              <strong className="block mt-2">This action cannot be undone.</strong>
+            </p>
+            
+            <div className="grid grid-cols-2 gap-4">
               <button
-                className="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600"
-                onClick={confirmRemoveSubmission}
-                disabled={isRemoving}
-              >
-                {isRemoving ? 'Removing...' : 'Remove'}
-              </button>
-              <button
-                className="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300"
+                className="bg-gray-200 text-gray-800 py-3 px-4 rounded-xl hover:bg-gray-300 font-medium"
                 onClick={() => setIsModalOpen(false)}
                 disabled={isRemoving}
               >
                 Cancel
+              </button>
+              <button
+                className="bg-red-500 text-white py-3 px-4 rounded-xl hover:bg-red-600 font-medium flex items-center justify-center"
+                onClick={confirmRemoveSubmission}
+                disabled={isRemoving}
+              >
+                {isRemoving ? (
+                  <>
+                    <Loader className="animate-spin mr-2" size={20} />
+                    <span>Removing...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="mr-2" size={20} />
+                    <span>Remove</span>
+                  </>
+                )}
               </button>
             </div>
           </div>
