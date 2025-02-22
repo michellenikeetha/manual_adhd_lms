@@ -4,13 +4,13 @@ import SignedInNavbar from './SignedInNavbar';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff } from 'lucide-react';
-import course1 from '../assets/course1.png';
-import course2 from '../assets/course2.png';
-import course3 from '../assets/course3.png';
-import course4 from '../assets/course4.png';
-import course5 from '../assets/course5.png';
-import course6 from '../assets/course6.png';
-import course7 from '../assets/course7.png';
+import course1 from '../assets/c1.jfif';
+import course2 from '../assets/c8.jfif';
+import course3 from '../assets/c7.jfif';
+import course4 from '../assets/c9.jfif';
+import course5 from '../assets/c5.jpg';
+import course6 from '../assets/c6.jfif';
+import course7 from '../assets/c3.jfif';
 
 const MyLearning = () => {
   const [activeTab, setActiveTab] = useState('in-progress');
@@ -31,16 +31,16 @@ const MyLearning = () => {
     {
       id: 2,
       image: course2,
-      title: 'Algebra',
-      description: 'Are you newer to Programming? Start learning basics of Algebra as a beginner',
+      title: 'Business Information Systems',
+      description: 'Are you newer to Business Information Systems? Start learning basics of BIS as a beginner',
       progress: 34,
       lastAccessed: 'Yesterday',
     },
     {
       id: 3,
       image: course3,
-      title: 'Introduction to Biology',
-      description: 'Are you newer to Programming? Start learning basics of Biology as a beginner',
+      title: 'Computational Biology',
+      description: 'Are you newer to Computational Biology? Start learning basics of Biology as a beginner',
       progress: 8,
       lastAccessed: '1 week ago',
     },
@@ -48,7 +48,7 @@ const MyLearning = () => {
       id: 4,
       image: course4,
       title: 'Introduction to AI',
-      description: 'Are you newer to Programming? Start learning basics of AI as a beginner',
+      description: 'Are you newer to AI? Start learning basics of AI as a beginner',
       progress: 67,
       lastAccessed: 'Today',
     },
