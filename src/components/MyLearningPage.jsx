@@ -267,7 +267,7 @@ const MyLearning = () => {
         </motion.div>
       </main>
 
-      {focusMode && (
+      {/* {focusMode && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ 
@@ -281,7 +281,29 @@ const MyLearning = () => {
             Choose one course to focus on today. What's your learning goal for this session?
           </div>
         </motion.div>
+      )} */}
+
+      {focusMode && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed bottom-6 left-6 p-4 bg-blue-50 rounded-lg border border-blue-200 shadow-lg max-w-xs"
+        >
+          <h3 className="font-medium text-blue-800 mb-2 flex items-center gap-2">
+            <motion.span
+              animate={{ rotate: [0, 15, 0, -15, 0] }}
+              transition={{ repeat: Infinity, duration: 2, delay: 1 }}
+            >
+              🎯
+            </motion.span>
+            Focus Tip
+          </h3>
+          <p className="text-blue-700">
+            Choose one course to focus on today. What's your learning goal for this session?
+          </p>
+        </motion.div>
       )}
+      
     </div>
   );
 };

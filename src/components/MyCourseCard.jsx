@@ -24,7 +24,6 @@ const MyCourseCard = ({
     }
   };
 
-  // Get color based on progress
   const getProgressColor = () => {
     if (progress < 25) return 'bg-red-500';
     if (progress < 50) return 'bg-yellow-500';
