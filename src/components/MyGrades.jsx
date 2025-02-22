@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { Award, BookOpen, TrendingUp, Search, Filter, AlertCircle, CheckCircle } from "lucide-react";
+import { Award, BookOpen, TrendingUp, Search, Filter, AlertCircle, CheckCircle, Eye, EyeOff } from "lucide-react";
 import SignedInNavbar from "./SignedInNavbar";
 
 const MyGrades = () => {
@@ -160,14 +161,33 @@ const MyGrades = () => {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-800">My Grades</h1>
             <div className="flex items-center space-x-4">
-              <button
+              {/* <button
                 onClick={() => setFocusMode(!focusMode)}
                 className={`px-4 py-2 rounded-lg transition-colors ${
                   focusMode ? 'bg-blue-500 text-white' : 'bg-white text-gray-700'
                 }`}
               >
                 Focus Mode
-              </button>
+              </button> */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setFocusMode(!focusMode)}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors
+                  ${focusMode ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-500'}`}
+              >
+                {focusMode ? (
+                  <>
+                    <EyeOff size={20} />
+                    <span>Focus Mode</span>
+                  </>
+                ) : (
+                  <>
+                    <Eye size={20} />
+                    <span>Normal Mode</span>
+                  </>
+                )}
+              </motion.button>
               <button
                 onClick={() => setViewMode(viewMode === 'table' ? 'cards' : 'table')}
                 className="px-4 py-2 bg-white rounded-lg text-gray-700 hover:bg-gray-100"
