@@ -255,10 +255,17 @@ const CalendarPage = () => {
                   <motion.li
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:scale-102 ${
-                      getPriorityColor(event.priority)
-                    }`}
+                    animate={{ 
+                      opacity: 1, 
+                      y: 0,
+                      scale: hoveredEvent === index ? 1.02 : 1
+                    }}
+                    onHoverStart={() => setHoveredEvent(index)}
+                    onHoverEnd={() => setHoveredEvent(null)}
+                    className={`p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 
+                      ${getPriorityColor(event.priority)}
+                      ${focusMode && hoveredEvent !== index ? 'opacity-50' : 'opacity-100'}
+                    `}
                   >
                     <div className="flex items-start justify-between">
                       <h4 className="font-semibold text-lg mb-2">
@@ -490,6 +497,23 @@ const CalendarPage = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* {focusMode && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: [0.7, 1, 0.7],
+              transition: { repeat: Infinity, duration: 4 }
+            }}
+            className="fixed bottom-6 left-6 bg-white p-3 rounded-lg shadow-lg max-w-xs"
+          >
+            <div className="text-sm text-gray-600">
+              <span className="font-medium block mb-1">Focus Tip:</span>
+              Focus on one event at a time. Take breaks between tasks and remember to check off completed steps.
+            </div>
+          </motion.div>
+        )} */}
+
       </main>
     </div>
   );
