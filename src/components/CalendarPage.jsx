@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { format, addMonths, subMonths } from "date-fns";
-import { Calendar, Plus, X, Clock, FileText, CheckCircle, AlertCircle, Brain, Timer, Star, BellRing } from "lucide-react";
+import { Calendar, Plus, X, Clock, FileText, CheckCircle, AlertCircle, Brain, Timer, Star, BellRing, Eye, EyeOff } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import SignedInNavbar from "./SignedInNavbar";
 
@@ -11,8 +11,10 @@ const CalendarPage = () => {
   const [showNotification, setShowNotification] = useState(false);
   const [colorMode, setColorMode] = useState('default'); // 'default', 'focused', 'calm'
   const [showReminder, setShowReminder] = useState(false);
+  const [focusMode, setFocusMode] = useState(false);  // Changed from colorMode
+  const [hoveredEvent, setHoveredEvent] = useState(null);
+
   
-  // Enhanced mock events with ADHD-friendly properties
   const mockEvents = {
     "2024-09-15": [
       { 
@@ -56,7 +58,6 @@ const CalendarPage = () => {
   });
 
   useEffect(() => {
-    // Show time-based reminders
     const checkUpcomingEvents = () => {
       const now = new Date();
       const todayStr = format(now, "yyyy-MM-dd");
@@ -141,9 +142,7 @@ const CalendarPage = () => {
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${
-      colorMode === 'focused' ? 'bg-gray-100' : 
-      colorMode === 'calm' ? 'bg-blue-50' : 
-      'bg-gray-50'
+      focusMode ? 'bg-gray-100' : 'bg-white'
     }`}>
       <SignedInNavbar />
 
@@ -153,35 +152,25 @@ const CalendarPage = () => {
             <h1 className="text-3xl font-bold text-gray-800">Calendar</h1>
           </div>
           <div className="flex items-center gap-4">
-            <div className="flex gap-2 bg-white p-2 rounded-xl shadow-sm">
-              <button
-                onClick={() => setColorMode('default')}
-                className={`p-2 rounded-lg transition-all duration-200 ${
-                  colorMode === 'default' ? 'bg-blue-100' : 'hover:bg-gray-100'
-                }`}
-                title="Default Mode"
-              >
-                <Calendar className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setColorMode('focused')}
-                className={`p-2 rounded-lg transition-all duration-200 ${
-                  colorMode === 'focused' ? 'bg-blue-100' : 'hover:bg-gray-100'
-                }`}
-                title="Focus Mode"
-              >
-                <Brain className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setColorMode('calm')}
-                className={`p-2 rounded-lg transition-all duration-200 ${
-                  colorMode === 'calm' ? 'bg-blue-100' : 'hover:bg-gray-100'
-                }`}
-                title="Calm Mode"
-              >
-                <Star className="w-5 h-5" />
-              </button>
-            </div>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setFocusMode(!focusMode)}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors
+                ${focusMode ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-500'}`}
+            >
+              {focusMode ? (
+                <>
+                  <EyeOff className="w-5 h-5" />
+                  <span>Focus Mode</span>
+                </>
+              ) : (
+                <>
+                  <Eye className="w-5 h-5" />
+                  <span>Normal Mode</span>
+                </>
+              )}
+            </motion.button>
             <button
               onClick={() => setEventModalOpen(true)}
               className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 shadow-sm transition-all duration-200 hover:scale-105"
