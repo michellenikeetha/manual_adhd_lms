@@ -17,6 +17,13 @@ import course9Image from '../assets/c9.jfif';
 const CoursesPage = () => {
   const [focusMode, setFocusMode] = useState(false);
   const [hoveredCourse, setHoveredCourse] = useState(null);
+  const [enrolledCourses, setEnrolledCourses] = useState([
+    { id: 5, title: 'IS4104 Natural Language Processing', semester: 'Semester I', progress: 66, imageUrl: course4Image },
+    { id: 6, title: 'IS4107 Computational Biology', semester: 'Semester I', progress: 100, imageUrl: course7Image },
+    { id: 7, title: 'IS4108 Business Information Systems', semester: 'Semester I', progress: 71, imageUrl: course8Image },
+    { id: 8, title: 'IS4105 Advanced Concepts in Software Design', semester: 'Semester I', progress: 60, imageUrl: course5Image },
+    { id: 9, title: 'IS4106 Data Analytics', semester: 'Semester I', progress: 43, imageUrl: course6Image }
+  ]);
 
   const availableCourses = [
     { id: 1, title: 'IS4101 Final Year Project in Information Systems', semester: 'Semester I', imageUrl: course1Image }, 
@@ -25,25 +32,16 @@ const CoursesPage = () => {
     { id: 4, title: 'IS4109 Cognitive Robotics', semester: 'Semester I', imageUrl: course9Image }
   ];
 
-  const enrolledCourses = [
-    { id: 5, title: 'IS4104 Natural Language Processing', semester: 'Semester I', progress: 66, imageUrl: course4Image },
-    { id: 6, title: 'IS4107 Computational Biology', semester: 'Semester I', progress: 100, imageUrl: course7Image },
-    { id: 7, title: 'IS4108 Business Information Systems', semester: 'Semester I', progress: 71, imageUrl: course8Image },
-    { id: 8, title: 'IS4105 Advanced Concepts in Software Design', semester: 'Semester I', progress: 60, imageUrl: course5Image },
-    { id: 9, title: 'IS4106 Data Analytics', semester: 'Semester I', progress: 43, imageUrl: course6Image }
-  ];
-
-  const getBackgroundColor = () => {
-    return focusMode ? 'bg-gray-100' : 'bg-white';
+  const enrollInCourse = (course) => {
+    setEnrolledCourses([...enrolledCourses, { ...course, progress: 0 }]);
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${getBackgroundColor()}`}>
+    <div className={`min-h-screen transition-colors duration-300 ${focusMode ? 'bg-gray-100' : 'bg-white'}`}>
       <SignedInNavbar />
       <div className="container mx-auto px-6 py-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 space-y-4 md:space-y-0">
           <h1 className="text-3xl font-bold">Courses</h1>
-          
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -51,28 +49,16 @@ const CoursesPage = () => {
             className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors
               ${focusMode ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-500'}`}
           >
-            {focusMode ? (
-              <>
-                <EyeOff size={20} />
-                <span>Focus Mode</span>
-              </>
-            ) : (
-              <>
-                <Eye size={20} />
-                <span>Normal Mode</span>
-              </>
-            )}
+            {focusMode ? <><EyeOff size={20} /><span>Focus Mode</span></> : <><Eye size={20} /><span>Normal Mode</span></>}
           </motion.button>
         </div>
 
-        <div className={`space-y-8 transition-opacity duration-300 ${
-          focusMode && hoveredCourse === null ? 'opacity-50' : 'opacity-100'
-        }`}>
+        <div className="space-y-8 transition-opacity duration-300">
           <motion.div
             onHoverStart={() => setHoveredCourse('available')}
             onHoverEnd={() => setHoveredCourse(null)}
           >
-            <AvailableCoursesSection availableCourses={availableCourses} />
+            <AvailableCoursesSection availableCourses={availableCourses} onEnroll={enrollInCourse} />
           </motion.div>
 
           <motion.div
