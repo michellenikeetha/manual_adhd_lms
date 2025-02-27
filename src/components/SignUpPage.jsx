@@ -33,7 +33,6 @@ const SignUpPage = () => {
 
   return (
     <div className="min-h-screen flex flex-row-reverse">
-      {/* Right side - Sign Up Form */}
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -129,12 +128,11 @@ const SignUpPage = () => {
         </div>
       </motion.div>
 
-      {/* Left side - Decorative Image */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -20 }}
-        className="hidden lg:block lg:w-1/2 bg-blue-600 relative overflow-hidden"
+        className="hidden lg:block lg:w-1/2 bg-blue-400 relative overflow-hidden"
       >
         <svg className="absolute inset-0 w-full h-full text-white/10" xmlns="http://www.w3.org/2000/svg">
           <pattern id="sign-up-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -142,7 +140,7 @@ const SignUpPage = () => {
           </pattern>
           <rect width="100%" height="100%" fill="url(#sign-up-pattern)"/>
         </svg>
-        <div className="absolute inset-0 bg-gradient-to-bl from-blue-600/90 to-blue-800/90" />
+        <div className="absolute inset-0 bg-gradient-to-bl from-blue-400/90 to-blue-600/90" />
         <div className="relative h-full flex flex-col justify-center px-12">
           <motion.img
             src={register}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SignedInNavbar from './SignedInNavbar';
 import AvailableCoursesSection from './AvailableCoursesSection';
 import EnrolledCoursesSection from './EnrolledCoursesSection';
@@ -25,6 +26,8 @@ const CoursesPage = () => {
     { id: 9, title: 'IS4106 Data Analytics', semester: 'Semester I', progress: 43, imageUrl: course6Image }
   ]);
 
+  const navigate = useNavigate();
+
   const availableCourses = [
     { id: 1, title: 'IS4101 Final Year Project in Information Systems', semester: 'Semester I', imageUrl: course1Image }, 
     { id: 2, title: 'IS4102 Advanced Software Quality Assurance', semester: 'Semester I', imageUrl: course2Image },
@@ -34,6 +37,9 @@ const CoursesPage = () => {
 
   const enrollInCourse = (course) => {
     setEnrolledCourses([...enrolledCourses, { ...course, progress: 0 }]);
+    setTimeout(() => {
+      navigate('/my-learning');
+    }, 2000);
   };
 
   return (
