@@ -64,14 +64,6 @@ const CourseContent = () => {
                 {focusMode ? <PauseCircle className="mr-2 h-4 w-4" /> : <PlayCircle className="mr-2 h-4 w-4" />}
                 {focusMode ? 'Exit Focus Mode' : 'Focus Mode'}
               </button>
-              <button className="flex items-center px-4 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm">
-                <Timer className="mr-2 h-4 w-4" />
-                <span>15-20 min</span>
-              </button>
-              <button className="flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-lg text-sm">
-                <Bookmark className="mr-2 h-4 w-4" />
-                <span>Save</span>
-              </button>
             </div>
           </div>
 
