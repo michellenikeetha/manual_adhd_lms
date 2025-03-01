@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SignedInNavbar from "./SignedInNavbar";
+import { Eye, EyeOff } from "lucide-react";
 
 const ProgrammingQuiz = () => {
   const [answers, setAnswers] = useState({});
@@ -11,6 +12,8 @@ const ProgrammingQuiz = () => {
   const [progress, setProgress] = useState(0);
   const [showFeedback, setShowFeedback] = useState({});
   const [quizCompleted, setQuizCompleted] = useState(false);
+  const [focusMode, setFocusMode] = useState(false);
+  const [hoveredQuestion, setHoveredQuestion] = useState(null);
 
   const totalQuestions = 10;
 
@@ -107,6 +110,10 @@ const ProgrammingQuiz = () => {
     } else if (direction === "prev" && currentQuestion > 1) {
       setCurrentQuestion(currentQuestion - 1);
     }
+  };
+
+  const getBackgroundColor = () => {
+    return focusMode ? "bg-gray-100" : "bg-gray-50";
   };
 
   const renderQuestion = (questionNumber) => {
@@ -538,23 +545,41 @@ const ProgrammingQuiz = () => {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className={`${getBackgroundColor()} min-h-screen transition-colors duration-300`}>
       <SignedInNavbar />
 
       <main className="container mx-auto px-4 py-8">
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
+        <div className="min-h-screen flex flex-col items-center p-6">
           <div className="w-full max-w-3xl mb-4">
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-bold">Quiz: Introduction to Programming</h1>
-              <button
-                onClick={takeBreak}
-                className="bg-blue-100 text-blue-600 py-2 px-4 rounded-lg hover:bg-blue-200 transition flex items-center"
-              >
-                <span className="mr-2">🧠</span> Take a 1-minute break
-              </button>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setFocusMode(!focusMode)}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors
+                    ${focusMode ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-500'}`}
+                >
+                  {focusMode ? (
+                    <>
+                      <EyeOff size={20} />
+                      <span>Focus Mode</span>
+                    </>
+                  ) : (
+                    <>
+                      <Eye size={20} />
+                      <span>Normal Mode</span>
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={takeBreak}
+                  className="bg-blue-100 text-blue-600 py-2 px-4 rounded-lg hover:bg-blue-200 transition flex items-center"
+                >
+                  <span className="mr-2">🧠</span> Take a Break
+                </button>
+              </div>
             </div>
             
-            {/* Progress bar */}
             <div className="mt-4 mb-6">
               <div className="flex justify-between text-sm text-gray-600 mb-1">
                 <span>Question {currentQuestion} of {totalQuestions}</span>
@@ -569,7 +594,7 @@ const ProgrammingQuiz = () => {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl">
+          <div className={`${focusMode ? 'bg-white' : 'bg-white'} p-6 rounded-lg shadow-lg w-full max-w-3xl`}>
             {!quizCompleted ? (
               <form>
                 {renderQuestion(currentQuestion)}
@@ -672,6 +697,15 @@ const ProgrammingQuiz = () => {
           </div>
         </div>
       </main>
+      
+      {focusMode && (
+        <div className="fixed bottom-6 left-6 bg-white p-3 rounded-lg shadow-lg max-w-xs">
+          <div className="text-sm text-gray-600">
+            <span className="font-medium block mb-1">Focus Tip:</span>
+            Take your time with each question. If you're stuck, use the hint provided or flag the question to revisit later.
+          </div>
+        </div>
+      )}
     </div>
   );
 };
