@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -22,17 +22,55 @@ const MaintenanceDetail = () => {
   const [readSections, setReadSections] = useState(new Set());
   const [expandedSection, setExpandedSection] = useState('overview');
   const [focusMode, setFocusMode] = useState(false);
+  const [showCompletionBadge, setShowCompletionBadge] = useState(false);
+  const checklistRef = useRef(null);
 
   const markAsRead = (section) => {
     setReadSections(prev => new Set([...prev, section]));
   };
 
-  const Section = ({ id, title, children }) => {
+  const handleViewChecklist = () => {
+    // Expand the checklist section
+    setExpandedSection('checklist');
+    markAsRead('checklist');
+    
+    // Scroll to the checklist section with smooth scrolling
+    if (checklistRef.current) {
+      checklistRef.current.scrollIntoView({ behavior: 'smooth' });
+      
+      // Add a flash effect
+      checklistRef.current.classList.add('flash-highlight');
+      setTimeout(() => {
+        if (checklistRef.current) {
+          checklistRef.current.classList.remove('flash-highlight');
+        }
+      }, 1500);
+    }
+  };
+
+  const completeChecklistItem = (index) => {
+    const updatedChecklist = [...checkedItems];
+    updatedChecklist[index] = !updatedChecklist[index];
+    setCheckedItems(updatedChecklist);
+    
+    // Show completion badge if all items are checked
+    if (updatedChecklist.every(item => item)) {
+      setShowCompletionBadge(true);
+    } else {
+      setShowCompletionBadge(false);
+    }
+  };
+
+  // Track which checklist items are completed
+  const [checkedItems, setCheckedItems] = useState([false, false, false, false]);
+
+  const Section = ({ id, title, children, reference }) => {
     const isExpanded = expandedSection === id;
     const isRead = readSections.has(id);
 
     return (
       <div 
+        ref={reference}
         className={`mb-6 bg-white rounded-lg shadow-sm transition-all duration-200
           ${isExpanded ? 'ring-2 ring-yellow-400 shadow-lg' : 'hover:shadow-md'}
           ${focusMode && !isExpanded ? 'opacity-50' : 'opacity-100'}
@@ -73,8 +111,44 @@ const MaintenanceDetail = () => {
     </div>
   );
 
+  const InteractiveChecklistItem = ({ text, index }) => (
+    <li className="flex items-center space-x-2 py-1">
+      <button 
+        onClick={() => completeChecklistItem(index)}
+        className={`w-5 h-5 rounded-md border transition-colors flex items-center justify-center
+          ${checkedItems[index] ? 'bg-green-500 border-green-500' : 'bg-white border-gray-300'}`}
+      >
+        {checkedItems[index] && <CheckCircle className="text-white" size={14} />}
+      </button>
+      <span className={checkedItems[index] ? 'line-through text-gray-500' : ''}>{text}</span>
+    </li>
+  );
+
   return (
     <div className={`min-h-screen ${focusMode ? 'bg-gray-100' : 'bg-gray-50'}`}>
+      <style jsx>{`
+        .flash-highlight {
+          animation: flash 1.5s;
+        }
+        
+        @keyframes flash {
+          0% { background-color: #fff; }
+          25% { background-color: #fef3c7; }
+          50% { background-color: #fff; }
+          75% { background-color: #fef3c7; }
+          100% { background-color: #fff; }
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
+      
       <SignedInNavbar />
       
       <div className="container mx-auto px-4 py-8">
@@ -144,16 +218,30 @@ const MaintenanceDetail = () => {
               </div>
             </Section>
 
-            <Section id="checklist" title="Preparation Checklist">
+            <Section id="checklist" title="Preparation Checklist" reference={checklistRef}>
               <div className="space-y-4">
                 <KeyPoint icon={CheckSquare} title="Before Maintenance">
-                  <ul className="list-disc list-inside ml-4 space-y-2">
-                    <li>Save all in-progress work</li>
-                    <li>Complete any ongoing assessments</li>
-                    <li>Download necessary materials</li>
-                    <li>Log out of the platform</li>
+                  <ul className="space-y-2 ml-4">
+                    <InteractiveChecklistItem text="Save all in-progress work" index={0} />
+                    <InteractiveChecklistItem text="Complete any ongoing assessments" index={1} />
+                    <InteractiveChecklistItem text="Download necessary materials" index={2} />
+                    <InteractiveChecklistItem text="Log out of the platform" index={3} />
                   </ul>
                 </KeyPoint>
+                
+                {showCompletionBadge && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-4 bg-green-50 border border-green-200 rounded-lg p-4 flex items-center"
+                  >
+                    <CheckCircle className="text-green-500 mr-3" size={24} />
+                    <div>
+                      <p className="font-semibold text-green-800">Great job!</p>
+                      <p className="text-green-700">You've completed all preparation steps.</p>
+                    </div>
+                  </motion.div>
+                )}
               </div>
             </Section>
 
@@ -199,12 +287,12 @@ const MaintenanceDetail = () => {
                   </p>
                 </div>
 
-                <a
-                  href="#checklist"
+                <button
+                  onClick={handleViewChecklist}
                   className="block w-full bg-yellow-500 text-white text-center py-3 rounded-lg hover:bg-yellow-600 transition-colors mt-6"
                 >
                   View Preparation Checklist
-                </a>
+                </button>
               </div>
             </div>
           </div>
