@@ -18,33 +18,55 @@ const CalendarPage = () => {
   const mockEvents = {
     "2024-09-15": [
       { 
-        title: "Team Meeting", 
-        description: "Weekly sync with the team",
+        title: "Assignment Deadline: Data Structures", 
+        description: "Submit the linked list implementation assignment",
         priority: "high",
-        duration: 60,
-        breakdownSteps: ["Review agenda", "Prepare notes", "Join call"],
-        reminder: 15
-      },
+        duration: 0, 
+        breakdownSteps: ["Finish coding", "Run tests", "Submit on LMS"],
+        reminder: 120 
+      }
+    ],
+    "2024-09-18": [
       { 
-        title: "Lunch with Client", 
-        description: "Discussion about new project",
+        title: "Guest Session: AI in Education", 
+        description: "Industry expert shares insights on AI-driven learning",
         priority: "medium",
-        duration: 45,
-        breakdownSteps: ["Review project docs", "Meet at cafe"],
-        reminder: 10
+        duration: 90,
+        breakdownSteps: ["Prepare questions", "Attend session", "Take notes"],
+        reminder: 30
       }
     ],
     "2024-09-20": [
       { 
-        title: "Product Launch", 
-        description: "New feature release",
+        title: "University Hackathon", 
+        description: "Collaborate with peers to solve real-world problems",
+        priority: "high",
+        duration: 180,
+        breakdownSteps: ["Form a team", "Select problem statement", "Develop solution"],
+        reminder: 60
+      }
+    ],
+    "2024-09-25": [
+      { 
+        title: "Exam: Database Management", 
+        description: "Final exam for Database course",
         priority: "high",
         duration: 120,
-        breakdownSteps: ["Check presentation", "Test demo", "Setup room"],
-        reminder: 30
+        breakdownSteps: ["Revise ER diagrams", "Practice SQL queries", "Review normalization"],
+        reminder: 1440 
+      }
+    ],
+    "2024-09-30": [
+      { 
+        title: "Assignment Deadline: Machine Learning Project", 
+        description: "Submit final ML project report and model",
+        priority: "high",
+        duration: 0, 
+        breakdownSteps: ["Finalize report", "Optimize model", "Upload submission"],
+        reminder: 180
       }
     ]
-  };
+  };  
 
   const [events, setEvents] = useState(mockEvents);
   const [newEvent, setNewEvent] = useState({
@@ -498,7 +520,7 @@ const CalendarPage = () => {
           )}
         </AnimatePresence>
 
-        {/* {focusMode && (
+        {focusMode && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ 
@@ -512,7 +534,7 @@ const CalendarPage = () => {
               Focus on one event at a time. Take breaks between tasks and remember to check off completed steps.
             </div>
           </motion.div>
-        )} */}
+        )}
 
       </main>
     </div>
