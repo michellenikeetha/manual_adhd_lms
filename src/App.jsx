@@ -22,6 +22,7 @@ import CalendarPage from "./components/CalendarPage.jsx";
 import CourseContent from "./components/CourseContent.jsx";
 import ProgrammingQuiz from "./components/Quiz.jsx";
 import ViewCertificate from "./components/ViewCertificate.jsx";
+import OlderAnnouncementsPage from "./components/OlderAnnouncements.jsx";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route path="/announcements/new-course:-ai-for-everyone" element={<AnnouncementDetail />} />
         <Route path="/announcements/platform-maintenance" element={<MaintenanceDetail />} />
         <Route path="/announcements/webinar:-future-of-tech" element={<WebinarDetail />} />
+        <Route path="/announcements/older-announcements" element={<OlderAnnouncementsPage />} />
         <Route path="/my-learning" element={<MyLearning />} />
         <Route path="/my-learning/my-course" element={<MyCoursePage />} />
         <Route path="/my-learning/grades" element={<MyGrades />} />
