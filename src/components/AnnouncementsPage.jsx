@@ -5,9 +5,9 @@ import {
   ChevronRight,
   Calendar, 
   ArrowUpRight,
-  Settings,
   Search,
-  X
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import SignedInNavbar from './SignedInNavbar';
@@ -30,7 +30,7 @@ const getCategoryBadgeColor = (category) => {
   return colors[category] || 'bg-gray-100 text-gray-800';
 };
 
-const AnnouncementCard = ({ title, date, description, category, reduceMotion }) => {
+const AnnouncementCard = ({ title, date, description, category, reduceMotion, isFocused, isHovered }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
 
@@ -38,7 +38,10 @@ const AnnouncementCard = ({ title, date, description, category, reduceMotion }) 
     <div 
       className={`bg-white border-l-4 ${getCategoryColor(category)} rounded-lg p-6 shadow-lg
         ${reduceMotion ? '' : 'transition-transform duration-200'} 
-        ${isExpanded ? 'ring-2 ring-blue-400' : 'hover:shadow-xl'}`}
+        ${isExpanded ? 'ring-2 ring-blue-400' : 'hover:shadow-xl'}
+        ${isFocused && !isHovered ? 'opacity-50' : 'opacity-100'}
+        transition-all duration-300
+        ${isHovered ? 'scale-102' : 'scale-100'}`}
     >
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center">
@@ -83,7 +86,8 @@ const AnnouncementsPage = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [reduceMotion, setReduceMotion] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
+  const [focusMode, setFocusMode] = useState(false);
+  const [hoveredAnnouncement, setHoveredAnnouncement] = useState(null);
 
   const announcements = [
     {
@@ -117,64 +121,35 @@ const AnnouncementsPage = () => {
       a.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-  const getCategoryColor = (category) => {
-    const colors = {
-      course: 'border-green-500',
-      platform: 'border-orange-500',
-      webinar: 'border-purple-500'
-    };
-    return colors[category] || 'border-gray-300';
-  };
-
-  const getCategoryBadgeColor = (category) => {
-    const colors = {
-      course: 'bg-green-100 text-green-800',
-      platform: 'bg-orange-100 text-orange-800',
-      webinar: 'bg-purple-100 text-purple-800'
-    };
-    return colors[category] || 'bg-gray-100 text-gray-800';
+  const getBackgroundColor = () => {
+    return focusMode ? 'bg-gray-100' : 'bg-gray-50';
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className={`min-h-screen transition-colors duration-300 ${getBackgroundColor()}`}>
       <SignedInNavbar />
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col space-y-6">
           <div className="flex justify-between items-center">
             <h1 className="text-3xl font-bold text-gray-800">Announcements</h1>
             <button
-              onClick={() => setShowSettings(!showSettings)}
-              className="p-2 rounded-lg hover:bg-gray-200"
-              aria-label="Settings"
+              onClick={() => setFocusMode(!focusMode)}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors
+                ${focusMode ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-500'}`}
             >
-              <Settings size={24} />
+              {focusMode ? (
+                <>
+                  <EyeOff size={20} />
+                  <span>Focus Mode</span>
+                </>
+              ) : (
+                <>
+                  <Eye size={20} />
+                  <span>Normal Mode</span>
+                </>
+              )}
             </button>
           </div>
-
-          {showSettings && (
-            <div className="bg-white p-4 rounded-lg shadow-lg">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">Display Settings</h2>
-                <button
-                  onClick={() => setShowSettings(false)}
-                  className="p-1 hover:bg-gray-100 rounded"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-              <div className="flex items-center space-x-4">
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={reduceMotion}
-                    onChange={(e) => setReduceMotion(e.target.checked)}
-                    className="form-checkbox h-5 w-5 text-blue-500"
-                  />
-                  <span>Reduce animations</span>
-                </label>
-              </div>
-            </div>
-          )}
 
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
             <div className="relative w-full sm:w-64">
@@ -205,12 +180,19 @@ const AnnouncementsPage = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {filteredAnnouncements.map((announcement) => (
-              <AnnouncementCard
+            {filteredAnnouncements.map((announcement, index) => (
+              <div
                 key={announcement.id}
-                {...announcement}
-                reduceMotion={reduceMotion}
-              />
+                onMouseEnter={() => setHoveredAnnouncement(index)}
+                onMouseLeave={() => setHoveredAnnouncement(null)}
+              >
+                <AnnouncementCard
+                  {...announcement}
+                  reduceMotion={reduceMotion}
+                  isFocused={focusMode}
+                  isHovered={hoveredAnnouncement === index}
+                />
+              </div>
             ))}
           </div>
 
@@ -231,6 +213,15 @@ const AnnouncementsPage = () => {
           </div>
         </div>
       </div>
+      
+      {focusMode && (
+        <div className="fixed bottom-6 left-6 bg-white p-3 rounded-lg shadow-lg max-w-xs opacity-80 hover:opacity-100 transition-opacity">
+          <div className="text-sm text-gray-600">
+            <span className="font-medium block mb-1">Focus Tip:</span>
+            Browse one announcement at a time. Hover over cards to focus on specific content.
+          </div>
+        </div>
+      )}
     </div>
   );
 };
