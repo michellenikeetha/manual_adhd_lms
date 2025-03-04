@@ -13,7 +13,7 @@ const CourseCard = ({ course, isEnrolled }) => {
   const navigate = useNavigate();
 
   const handleEnroll = (e) => {
-    e.stopPropagation(); // Prevent card click from triggering
+    e.stopPropagation(); 
     setShowConfirm(false);
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
@@ -24,13 +24,13 @@ const CourseCard = ({ course, isEnrolled }) => {
   };
 
   const handleEnrollClick = (e) => {
-    e.stopPropagation(); // Prevent card click from triggering
+    e.stopPropagation();
     setShowConfirm(true);
   };
 
   return (
     <motion.div
-      className="bg-white p-6 rounded-2xl shadow-md relative overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+      className="bg-white p-6 rounded-2xl shadow-md relative overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer flex flex-col h-[350px]"
       whileHover={{ scale: 1.03, y: -3 }}
       whileTap={{ scale: 0.97 }}
       onHoverStart={() => setIsHovered(true)}
@@ -60,43 +60,45 @@ const CourseCard = ({ course, isEnrolled }) => {
       
       <p className="text-sm text-gray-500 font-medium mb-4">{course.semester}</p>
 
-      {isEnrolled ? (
-        <motion.div 
-          className="mt-4 space-y-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          <div className="flex justify-between items-center">
-            <p className="text-sm text-indigo-600 font-medium">{course.progress}% Complete</p>
-            {course.progress === 100 && (
-              <CheckCircle className="w-5 h-5 text-green-500" />
-            )}
-          </div>
-          <div className="relative w-full h-3 bg-gray-300 rounded-full overflow-hidden">
-            <motion.div
-              className="absolute left-0 top-0 h-full bg-indigo-600 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${course.progress}%` }}
-              transition={{ duration: 1, ease: "easeOut" }}
-            />
-          </div>
-        </motion.div>
-      ) : (
-        <motion.button
-          className="mt-4 w-full bg-indigo-600 text-white py-3 px-4 rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 focus:ring focus:ring-indigo-400 focus:ring-opacity-50"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={handleEnrollClick}
-        >
-          <span>Enroll Now</span>
-          <motion.div
-            animate={{ x: [0, 5, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
+      <div className="mt-auto">
+        {isEnrolled ? (
+          <motion.div 
+            className="mt-4 space-y-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
           >
-            →
+            <div className="flex justify-between items-center">
+              <p className="text-sm text-indigo-600 font-medium">{course.progress}% Complete</p>
+              {course.progress === 100 && (
+                <CheckCircle className="w-5 h-5 text-green-500" />
+              )}
+            </div>
+            <div className="relative w-full h-3 bg-gray-300 rounded-full overflow-hidden">
+              <motion.div
+                className="absolute left-0 top-0 h-full bg-indigo-600 rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${course.progress}%` }}
+                transition={{ duration: 1, ease: "easeOut" }}
+              />
+            </div>
           </motion.div>
-        </motion.button>
-      )}
+        ) : (
+          <motion.button
+            className="mt-4 w-full bg-indigo-600 text-white py-3 px-4 rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 focus:ring focus:ring-indigo-400 focus:ring-opacity-50"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleEnrollClick}
+          >
+            <span>Enroll Now</span>
+            <motion.div
+              animate={{ x: [0, 5, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+            >
+              →
+            </motion.div>
+          </motion.button>
+        )}
+      </div>
 
       <AnimatePresence>
         {showConfirm && (
