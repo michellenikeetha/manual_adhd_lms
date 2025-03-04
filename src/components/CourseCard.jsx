@@ -1,6 +1,6 @@
 // components/CourseCard.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, X, Clock } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,21 +10,33 @@ const CourseCard = ({ course, isEnrolled }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
 
-  const handleEnroll = () => {
+  const handleEnroll = (e) => {
+    e.stopPropagation(); // Prevent card click from triggering
     setShowConfirm(false);
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
   };
 
+  const handleCardClick = () => {
+    navigate('/my-learning');
+  };
+
+  const handleEnrollClick = (e) => {
+    e.stopPropagation(); // Prevent card click from triggering
+    setShowConfirm(true);
+  };
+
   return (
     <motion.div
-      className="bg-white p-6 rounded-2xl shadow-md relative overflow-hidden hover:shadow-lg transition-shadow duration-300"
+      className="bg-white p-6 rounded-2xl shadow-md relative overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
       whileHover={{ scale: 1.03, y: -3 }}
       whileTap={{ scale: 0.97 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       transition={{ type: "spring", stiffness: 300, damping: 15 }}
+      onClick={handleCardClick}
     >
       <motion.div
         className="absolute top-2 right-2 bg-indigo-100 rounded-full p-2"
@@ -74,7 +86,7 @@ const CourseCard = ({ course, isEnrolled }) => {
           className="mt-4 w-full bg-indigo-600 text-white py-3 px-4 rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 focus:ring focus:ring-indigo-400 focus:ring-opacity-50"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => setShowConfirm(true)}
+          onClick={handleEnrollClick}
         >
           <span>Enroll Now</span>
           <motion.div
@@ -93,17 +105,25 @@ const CourseCard = ({ course, isEnrolled }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent clicks from reaching the card
+              setShowConfirm(false);
+            }}
           >
             <motion.div
               className="bg-white p-6 rounded-2xl shadow-xl w-80"
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()} // Prevent clicks from closing the modal
             >
               <div className="flex justify-between items-center mb-4">
                 <h4 className="text-lg font-semibold">Confirm Enrollment</h4>
                 <button 
-                  onClick={() => setShowConfirm(false)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowConfirm(false);
+                  }}
                   className="text-gray-500 hover:text-gray-700"
                 >
                   <X className="w-5 h-5" />
@@ -117,7 +137,10 @@ const CourseCard = ({ course, isEnrolled }) => {
                   className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-400"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setShowConfirm(false)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowConfirm(false);
+                  }}
                 >
                   Cancel
                 </motion.button>
@@ -125,7 +148,10 @@ const CourseCard = ({ course, isEnrolled }) => {
                   className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 focus:ring focus:ring-indigo-400"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={handleEnroll}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEnroll(e);
+                  }}
                 >
                   Confirm
                 </motion.button>
