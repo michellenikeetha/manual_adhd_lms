@@ -23,8 +23,11 @@ import CourseContent from "./components/CourseContent.jsx";
 import ProgrammingQuiz from "./components/Quiz.jsx";
 import ViewCertificate from "./components/ViewCertificate.jsx";
 import OlderAnnouncementsPage from "./components/OlderAnnouncements.jsx";
+import Clarity from '@microsoft/clarity';
 
 function App() {
+  const projectId = "qiw91emtrr"
+  Clarity.init(projectId);
   return (
     <Router>
       <Routes>
