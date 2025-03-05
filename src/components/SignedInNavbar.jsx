@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -14,13 +14,15 @@ import {
   faGraduationCap,
   faCalendar,
   faClipboard,
-  faBullhorn
+  faBullhorn,
+  faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navItems = [
     { path: '/', icon: faHome, label: 'Home' },
@@ -65,6 +67,18 @@ const Navbar = () => {
       bgColor: "bg-yellow-50"
     },
   ];
+
+  // Logout handler
+  const handleLogout = () => {
+    // Here you would typically:
+    // 1. Clear authentication token
+    // 2. Clear user session
+    // 3. Reset any global state
+    localStorage.removeItem('authToken'); // Example of removing auth token
+    
+    // Redirect to login page
+    navigate('/login');
+  };
 
   return (
     <nav className="bg-white shadow-lg py-4 sticky top-0 z-50">
@@ -143,18 +157,30 @@ const Navbar = () => {
             )}
           </AnimatePresence>
 
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link 
-              to="/profile" 
-              className="bg-blue-50 text-blue-700 py-2 px-4 rounded-lg flex items-center space-x-2 hover:bg-blue-100 transition-colors duration-200"
+          <div className="flex space-x-2">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <FontAwesomeIcon icon={faUser} />
-              <span className="font-medium">Profile</span>
-            </Link>
-          </motion.div>
+              <Link 
+                to="/profile" 
+                className="bg-blue-50 text-blue-700 py-2 px-4 rounded-lg flex items-center space-x-2 hover:bg-blue-100 transition-colors duration-200"
+              >
+                <FontAwesomeIcon icon={faUser} />
+                <span className="font-medium">Profile</span>
+              </Link>
+            </motion.div>
+
+            <motion.button
+              onClick={handleLogout}
+              className="bg-red-50 text-red-700 py-2 px-4 rounded-lg flex items-center space-x-2 hover:bg-red-100 transition-colors duration-200"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FontAwesomeIcon icon={faSignOutAlt} />
+              <span className="font-medium">Logout</span>
+            </motion.button>
+          </div>
         </div>
       </div>
     </nav>
