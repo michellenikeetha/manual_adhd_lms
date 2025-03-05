@@ -38,7 +38,7 @@ const HeroSection = ({ setActiveSection }) => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.8 }}
       >
-        <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+        <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
           Empower Your Learning Journey
         </h1>
         <p className="text-xl md:text-2xl mb-8 leading-relaxed">

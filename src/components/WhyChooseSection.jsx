@@ -41,7 +41,7 @@ const WhyChooseSection = ({ setActiveSection }) => {
     <section id="why-choose" className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <motion.h2
-          className="text-4xl font-bold text-center mb-16"
+          className="text-3xl font-bold text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

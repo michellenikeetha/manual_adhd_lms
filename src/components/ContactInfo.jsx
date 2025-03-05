@@ -7,7 +7,7 @@ const ContactInfo = () => {
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-12">
 
         <div className="space-y-6">
-          <h3 className="text-4xl font-bold text-center sm:text-left mb-10">Contact Information</h3>
+          <h3 className="text-3xl font-bold text-center sm:text-left mb-10">Contact Information</h3>
           <p className="flex items-center gap-2 text-lg">
             <FaPhone className="text-[#1677ff]" /> 
             Phone Numbers: <span className="font-bold">+94 071-234-5678, +94 077-123-4567</span>

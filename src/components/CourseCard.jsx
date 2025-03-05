@@ -52,7 +52,7 @@ const CourseCard = ({ course, isEnrolled }) => {
       />
 
       <motion.h3 
-        className="text-xl font-semibold text-gray-900 mb-2"
+        className="text-lg font-semibold text-gray-900 mb-2"
         animate={{ color: isHovered ? '#4F46E5' : '#1E293B' }}
       >
         {course.title}
