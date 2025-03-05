@@ -26,7 +26,7 @@ import OlderAnnouncementsPage from "./components/OlderAnnouncements.jsx";
 import Clarity from '@microsoft/clarity';
 
 function App() {
-  const projectId = "qiw91emtrr"
+  const projectId = "qjjzx7baw8"
   Clarity.init(projectId);
   return (
     <Router>
