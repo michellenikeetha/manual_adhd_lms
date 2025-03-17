@@ -3,7 +3,7 @@ import SignedInNavbar from "./SignedInNavbar";
 import { useNavigate } from 'react-router-dom';
 import { 
   ArrowRight, BookOpen, FileText, HelpCircle, CheckCircle, AlertTriangle,
-  Eye, EyeOff, Brain, Zap, Award, Timer, MousePointer, Play, Pause,
+  Eye, EyeOff, Brain, Zap, Award, Timer, MousePointer,
   ArrowUp, Target, Book, BarChart2, Lightbulb, Lock, Unlock, MessageSquare
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -14,7 +14,6 @@ const PhilosophyCourseContentPage = () => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipContent, setTooltipContent] = useState("");
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
-  const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showCelebration, setShowCelebration] = useState(false);
   const [completedSections, setCompletedSections] = useState([]);
@@ -67,24 +66,6 @@ const PhilosophyCourseContentPage = () => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  // Simulate audio narration controls
-  const togglePlayback = () => {
-    setIsPlaying(!isPlaying);
-    if (!isPlaying) {
-      // Start progress animation when playing
-      let interval = setInterval(() => {
-        setProgress(prev => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            setIsPlaying(false);
-            return 0;
-          }
-          return prev + 1;
-        });
-      }, 100);
-    }
   };
 
   // Handle tooltip display
@@ -179,18 +160,6 @@ const PhilosophyCourseContentPage = () => {
           </button>
           
           <button 
-            onClick={togglePlayback}
-            className="p-2 rounded-full bg-green-100 hover:bg-green-200 transition-colors"
-            onMouseEnter={(e) => handleShowTooltip("Toggle Audio Narration", e)}
-            onMouseLeave={handleHideTooltip}
-          >
-            {isPlaying ? 
-              <Pause className="h-5 w-5 text-green-600" /> : 
-              <Play className="h-5 w-5 text-green-600" />
-            }
-          </button>
-          
-          <button 
             onClick={toggleTimer}
             className="p-2 rounded-full bg-purple-100 hover:bg-purple-200 transition-colors"
             onMouseEnter={(e) => handleShowTooltip("Study Timer", e)}
@@ -214,16 +183,6 @@ const PhilosophyCourseContentPage = () => {
       {timerActive && (
         <div className="fixed top-20 left-4 bg-purple-100 px-3 py-2 rounded-lg z-40 shadow-md">
           <div className="text-purple-800 font-bold">{formatTime(studyTime)}</div>
-        </div>
-      )}
-
-      {/* Progress bar for audio narration */}
-      {isPlaying && (
-        <div className="fixed top-16 left-0 right-0 h-1 bg-gray-200 z-50">
-          <div 
-            className="h-full bg-green-500 transition-all duration-100 ease-linear"
-            style={{ width: `${progress}%` }}
-          ></div>
         </div>
       )}
 
@@ -279,9 +238,9 @@ const PhilosophyCourseContentPage = () => {
                 {id: "einstein", name: "Einstein's Model", icon: <Lightbulb className="h-4 w-4 mr-1" />},
                 {id: "principles", name: "Key Principles", icon: <CheckCircle className="h-4 w-4 mr-1" />},
                 {id: "falsifiability", name: "Falsifiability", icon: <Lock className="h-4 w-4 mr-1" />},
-                {id: "implications", name: "Modern Implications", icon: <BarChart2 className="h-4 w-4 mr-1" />},
-                {id: "consequences", name: "Ad Hoc Modifications", icon: <AlertTriangle className="h-4 w-4 mr-1" />},
-                {id: "practice", name: "Practice Questions", icon: <HelpCircle className="h-4 w-4 mr-1" />}
+                {id: "criticism", name: "Criticisms and Responses", icon: <BarChart2 className="h-4 w-4 mr-1" />},
+                {id: "legacy", name: "Legacy and Influence", icon: <AlertTriangle className="h-4 w-4 mr-1" />},
+                {id: "practice", name: "Conclusion", icon: <HelpCircle className="h-4 w-4 mr-1" />}
               ].map((section) => (
                 <button 
                   key={section.id}
@@ -648,11 +607,11 @@ const PhilosophyCourseContentPage = () => {
               </button>
             </section>
 
-            {/* Final Assessment */}
-            <section id="assessment" className="mb-8 bg-gray-50 p-6 rounded-lg border border-gray-200 transition-all duration-300 hover:shadow-md">
+            {/* Practice Questions*/}
+            <section id="practice" className="mb-8 bg-gray-50 p-6 rounded-lg border border-gray-200 transition-all duration-300 hover:shadow-md">
               <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
                 <FileText className="h-6 w-6 text-gray-600 mr-2" />
-                Final Assessment
+                Conclusion
               </h2>
               
               <div className="bg-white p-4 rounded-lg shadow-sm mb-4">
@@ -666,56 +625,13 @@ const PhilosophyCourseContentPage = () => {
                 </ul>
               </div>
               
-              <div className="mb-6 p-4 bg-white rounded-lg shadow-sm">
-                <h3 className="text-lg font-medium text-gray-800 mb-3">Self-Assessment</h3>
-                <p className="text-sm text-gray-600 mb-3">Test your understanding of Popper's philosophy:</p>
-                
-                <div className="space-y-4">
-                  <div className="assessment-question">
-                    <p className="font-medium text-gray-800 mb-1">1. According to Popper, what distinguishes scientific theories from non-scientific ones?</p>
-                    <div className="ml-4 space-y-1">
-                      <div className="flex items-center">
-                        <input type="radio" name="q1" id="q1a" className="mr-2" />
-                        <label htmlFor="q1a" className="text-gray-700 text-sm">Their ability to be verified through experiment</label>
-                      </div>
-                      <div className="flex items-center">
-                        <input type="radio" name="q1" id="q1b" className="mr-2" />
-                        <label htmlFor="q1b" className="text-gray-700 text-sm">Their falsifiability</label>
-                      </div>
-                      <div className="flex items-center">
-                        <input type="radio" name="q1" id="q1c" className="mr-2" />
-                        <label htmlFor="q1c" className="text-gray-700 text-sm">Their explanatory power</label>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="assessment-question">
-                    <p className="font-medium text-gray-800 mb-1">2. Why did Popper consider Einstein's theory to be scientific?</p>
-                    <div className="ml-4 space-y-1">
-                      <div className="flex items-center">
-                        <input type="radio" name="q2" id="q2a" className="mr-2" />
-                        <label htmlFor="q2a" className="text-gray-700 text-sm">It explained all observed phenomena</label>
-                      </div>
-                      <div className="flex items-center">
-                        <input type="radio" name="q2" id="q2b" className="mr-2" />
-                        <label htmlFor="q2b" className="text-gray-700 text-sm">It made specific, testable predictions that could have proven it wrong</label>
-                      </div>
-                      <div className="flex items-center">
-                        <input type="radio" name="q2" id="q2c" className="mr-2" />
-                        <label htmlFor="q2c" className="text-gray-700 text-sm">It was mathematically elegant</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* <button 
-                className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex items-center justify-center w-full md:w-auto"
-                onClick={() => completeModule()}
+              <button 
+                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
+                onClick={() => markSectionComplete("practice")}
               >
-                <CheckCircle className="h-5 w-5 mr-2" />
-                Complete Module
-              </button> */}
+                <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
+                <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
+              </button>
             </section>
 
           </main>
