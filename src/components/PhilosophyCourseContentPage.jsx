@@ -299,10 +299,9 @@ const PhilosophyCourseContentPage = () => {
           </div>
 
           <main>
-            
+
             {/* Section 1 with visual enhancement */}
             <section id="distinguishing" className="mb-8 bg-blue-50 p-6 rounded-lg border border-blue-100 transition-all duration-300 hover:shadow-md relative">
-              <div className="absolute -left-3 top-6 bottom-6 w-1 bg-blue-600 rounded-full"></div>
               <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
                 <Zap className="h-6 w-6 text-blue-600 mr-2" />
                 Distinguishing Science from Pseudo-Science
@@ -340,18 +339,18 @@ const PhilosophyCourseContentPage = () => {
               </div>
               
               <button 
-                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4"
+                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
                 onClick={() => markSectionComplete("distinguishing")}
               >
-                <CheckCircle className="h-4 w-4 mr-1" />
-                Mark as complete
+                <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
+                <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
               </button>
             </section>
 
             {/* Section 2 */}
-            <section id="influences" className="mb-8 bg-gray-50 p-6 rounded-lg border border-gray-200 transition-all duration-300 hover:shadow-md">
+            <section id="influences" className="mb-8 bg-gray-50 p-6 rounded-lg border border-gray-100 transition-all duration-300 hover:shadow-md relative">
               <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                <Book className="h-6 w-6 text-blue-600 mr-2" />
+                <Book className="h-6 w-6 text-gray-600 mr-2" />
                 Influences and Context
               </h2>
               
@@ -359,28 +358,35 @@ const PhilosophyCourseContentPage = () => {
                 <div className="theory-comparison bg-white p-4 rounded-lg shadow-sm">
                   <h3 className="text-lg font-medium text-gray-800 mb-2">Logical Positivism</h3>
                   <p className="text-gray-700 text-sm">
-                    The dominant philosophy of science in early 20th century, which held that meaningful statements must be empirically verifiable.
+                    The dominant philosophy of science in early 20th century, which held that meaningful statements must be empirically <span className="font-semibold text-blue-800">verifiable</span>.
                   </p>
                 </div>
                 
                 <div className="theory-comparison bg-white p-4 rounded-lg shadow-sm">
                   <h3 className="text-lg font-medium text-gray-800 mb-2">Einstein vs. Marx/Freud</h3>
                   <p className="text-gray-700 text-sm">
-                    Popper was impressed by Einstein's testable predictions but skeptical of Marx and Freud whose theories seemed to explain everything without risking falsification.
+                    Popper was impressed by Einstein's <span className="font-semibold text-blue-800">testable predictions</span> but skeptical of Marx and Freud whose theories seemed to explain everything without risking falsification.
                   </p>
                 </div>
               </div>
               
               <p className="text-gray-700 mb-4">
-                Popper developed his ideas during the early 20th century when various intellectual movements, including Marxism, psychoanalysis, and Einstein's relativity theory, were competing for scientific legitimacy.
+                Popper developed his ideas during the early 20th century when various intellectual movements, including Marxism, psychoanalysis, and Einstein's relativity theory, were competing for <span className="font-semibold text-blue-800">scientific legitimacy</span>.
               </p>
               
+              <div className="bg-white p-4 rounded-lg shadow-sm mb-4 border-l-4 border-purple-500">
+                <p className="italic text-gray-600">
+                  "Einstein's theory, as I saw it, was not a source of dogmatic certainty, but rather a hypothesis that might be falsified."
+                  <span className="block text-right text-sm mt-1">— Karl Popper</span>
+                </p>
+              </div>
+              
               <button 
-                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4"
+                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
                 onClick={() => markSectionComplete("influences")}
               >
-                <CheckCircle className="h-4 w-4 mr-1" />
-                Mark as complete
+                <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
+                <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
               </button>
             </section>
 
@@ -416,11 +422,11 @@ const PhilosophyCourseContentPage = () => {
               </div>
               
               <button 
-                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4"
+                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
                 onClick={() => markSectionComplete("problem")}
               >
-                <CheckCircle className="h-4 w-4 mr-1" />
-                Mark as complete
+                <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
+                <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
               </button>
             </section>
 
@@ -455,11 +461,11 @@ const PhilosophyCourseContentPage = () => {
               </div>
               
               <button 
-                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4"
+                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
                 onClick={() => markSectionComplete("einstein")}
               >
-                <CheckCircle className="h-4 w-4 mr-1" />
-                Mark as complete
+                <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
+                <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
               </button>
             </section>
 
@@ -503,11 +509,11 @@ const PhilosophyCourseContentPage = () => {
               </div>
               
               <button 
-                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4"
+                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
                 onClick={() => markSectionComplete("principles")}
               >
-                <CheckCircle className="h-4 w-4 mr-1" />
-                Mark as complete
+                <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
+                <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
               </button>
             </section>
 
@@ -553,11 +559,11 @@ const PhilosophyCourseContentPage = () => {
               </div>
               
               <button 
-                className="text-blue-600 hover:text-blue-800 hover:text-blue-800 text-sm flex items-center mt-4"
+                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
                 onClick={() => markSectionComplete("falsifiability")}
               >
-                <CheckCircle className="h-4 w-4 mr-1" />
-                Mark as complete
+                <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
+                <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
               </button>
             </section>
 
@@ -596,18 +602,18 @@ const PhilosophyCourseContentPage = () => {
               </div>
               
               <button 
-                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4"
+                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
                 onClick={() => markSectionComplete("criticism")}
               >
-                <CheckCircle className="h-4 w-4 mr-1" />
-                Mark as complete
+                <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
+                <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
               </button>
             </section>
 
             {/* Section 8 */}
-            <section id="legacy" className="mb-8 bg-indigo-50 p-6 rounded-lg border border-indigo-100 transition-all duration-300 hover:shadow-md">
+            <section id="legacy" className="mb-8 bg-orange-50 p-6 rounded-lg border border-orange-100 transition-all duration-300 hover:shadow-md">
               <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                <Award className="h-6 w-6 text-indigo-600 mr-2" />
+                <Award className="h-6 w-6 text-orange-600 mr-2" />
                 Legacy and Influence
               </h2>
               
@@ -634,11 +640,11 @@ const PhilosophyCourseContentPage = () => {
               </div>
               
               <button 
-                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4"
+                className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
                 onClick={() => markSectionComplete("legacy")}
               >
-                <CheckCircle className="h-4 w-4 mr-1" />
-                Mark as complete
+                <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
+                <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
               </button>
             </section>
 
@@ -712,35 +718,6 @@ const PhilosophyCourseContentPage = () => {
               </button> */}
             </section>
 
-            {/* References */}
-            {/* <section id="references" className="mb-8 bg-gray-50 p-6 rounded-lg border border-gray-200">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                <BookOpen className="h-6 w-6 text-gray-600 mr-2" />
-                References and Further Reading
-              </h2>
-              
-              <div className="space-y-3">
-                <div className="reference p-3 bg-white rounded border border-gray-100">
-                  <p className="text-gray-800 font-medium">Popper, K. (1959). The Logic of Scientific Discovery.</p>
-                  <p className="text-gray-600 text-sm">Popper's foundational work outlining his theory of falsifiability and scientific method.</p>
-                </div>
-                
-                <div className="reference p-3 bg-white rounded border border-gray-100">
-                  <p className="text-gray-800 font-medium">Popper, K. (1963). Conjectures and Refutations.</p>
-                  <p className="text-gray-600 text-sm">A collection of essays exploring falsificationism and its applications.</p>
-                </div>
-                
-                <div className="reference p-3 bg-white rounded border border-gray-100">
-                  <p className="text-gray-800 font-medium">Kuhn, T. (1962). The Structure of Scientific Revolutions.</p>
-                  <p className="text-gray-600 text-sm">An influential critique of Popper's view, introducing the concept of paradigm shifts.</p>
-                </div>
-                
-                <div className="reference p-3 bg-white rounded border border-gray-100">
-                  <p className="text-gray-800 font-medium">Miller, D. (1994). Critical Rationalism: A Restatement and Defence.</p>
-                  <p className="text-gray-600 text-sm">A modern defense and elaboration of Popper's philosophy.</p>
-                </div>
-              </div>
-            </section> */}
           </main>
 
         </div>
