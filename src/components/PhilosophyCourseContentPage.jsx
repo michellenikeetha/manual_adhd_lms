@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { 
   ArrowRight, BookOpen, FileText, HelpCircle, CheckCircle, AlertTriangle,
   Eye, EyeOff, Brain, Zap, Award, Timer, MousePointer,
-  ArrowUp, Target, Book, BarChart2, Lightbulb, Lock, Unlock, MessageSquare
+  ArrowUp, Target, Book, BarChart2, Lightbulb, Lock, Unlock, MessageSquare,
+  ClipboardCheck, Edit3
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -89,6 +90,10 @@ const PhilosophyCourseContentPage = () => {
       }
     }
   }, [activeSection]);
+
+  const navigateToQuiz = () => {
+    navigate('/quiz');
+  };
 
   // Section data
   const sections = [
@@ -201,7 +206,7 @@ const PhilosophyCourseContentPage = () => {
 
       <div className="flex" >
         {/* Side Navigation Panel - Table of Contents */}
-        <aside className="w-64 bg-white shadow-md sidebar overflow-y-auto fixed top-60 left-40">
+        <aside className="w-64 bg-white shadow-md sidebar overflow-y-auto fixed top-1/2 left-40 transform -translate-y-1/2">
           <div className="p-4 border-b border-gray-200">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-medium text-gray-700">Your Progress</h3>
@@ -218,7 +223,7 @@ const PhilosophyCourseContentPage = () => {
           <div className="p-4">
             <h2 className="text-lg font-semibold text-gray-800 mb-3 flex items-center">
               <MousePointer className="h-5 w-5 text-blue-600 mr-2" />
-              Quick Navigaion
+              Quick Navigation
             </h2>
             <div className="flex flex-col space-y-2">
               {sections.map((section) => (
@@ -234,6 +239,35 @@ const PhilosophyCourseContentPage = () => {
                   {completedSections.includes(section.id) && <CheckCircle className="h-4 w-4 text-green-500 ml-auto" />}
                 </button>
               ))}
+            </div>
+          </div>
+
+          {/* Quiz Navigation Section */}
+          <div className="p-4 border-t border-gray-200">
+            <h2 className="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+              <ClipboardCheck className="h-5 w-5 text-green-600 mr-2" />
+              Assessment
+            </h2>
+            <div className="flex flex-col space-y-2">
+              <button 
+                onClick={navigateToQuiz}
+                className="p-3 text-sm rounded-md transition-colors text-left flex items-center
+                  bg-green-50 hover:bg-green-100 text-green-800 border border-green-200"
+              >
+                <Edit3 className="h-4 w-4 mr-2 text-green-600" />
+                <span>Take Chapter Quiz</span>
+                <ArrowRight className="h-4 w-4 ml-auto text-green-600" />
+              </button>
+              
+              <button 
+                onClick={() => navigate('/philosophy-discussion')}
+                className="p-3 text-sm rounded-md transition-colors text-left flex items-center
+                  bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200"
+              >
+                <MessageSquare className="h-4 w-4 mr-2 text-blue-600" />
+                <span>Join Discussion</span>
+                <ArrowRight className="h-4 w-4 ml-auto text-blue-600" />
+              </button>
             </div>
           </div>
         </aside>
