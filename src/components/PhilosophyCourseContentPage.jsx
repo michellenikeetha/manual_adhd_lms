@@ -5,7 +5,7 @@ import {
   ArrowRight, BookOpen, FileText, HelpCircle, CheckCircle, AlertTriangle,
   Eye, EyeOff, Brain, Zap, Award, Timer, MousePointer,
   ArrowUp, Target, Book, BarChart2, Lightbulb, Lock, Unlock, MessageSquare,
-  ClipboardCheck, Edit3
+  ClipboardCheck, Edit3, ChevronLeft
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -100,6 +100,10 @@ const PhilosophyCourseContentPage = () => {
     navigate('/quiz');
   };
 
+   const goBack = () => {
+    navigate('/my-learning/my-course');
+  };
+
   // Section data
   const sections = [
     {id: "distinguishing", name: "Distinguishing Science", icon: <Target className="h-4 w-4 mr-1" />},
@@ -158,7 +162,15 @@ const PhilosophyCourseContentPage = () => {
       <SignedInNavbar />
 
       <div className="container mx-auto px-6 py-8">
-        <div className="flex justify-end">
+        <div className="flex justify-between"> 
+
+          <button 
+            onClick={goBack}
+            className="mb-4 flex items-center text-gray-600 hover:text-blue-600 transition-colors font-medium"
+          >
+            <ChevronLeft className="h-5 w-5 mr-1" />
+            Back to Course Overview
+          </button>
 
           <div className="flex items-center space-x-4">
             <motion.button
@@ -236,9 +248,9 @@ const PhilosophyCourseContentPage = () => {
           </div>
         )}
 
-        <div className="flex" >
+        <div className="flex relative" >
           {/* Side Navigation Panel - Table of Contents */}
-          <aside className="w-64 bg-white shadow-md sidebar overflow-y-auto fixed top-1/2 left-40 transform -translate-y-1/2">
+          <aside className="w-64 bg-white shadow-md sidebar overflow-y-auto sticky top-8 self-start">
             <div className="p-4 border-b border-gray-200">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-sm font-medium text-gray-700">Your Progress</h3>
