@@ -23,8 +23,8 @@ const MyLearning = () => {
     {
       id: 1,
       image: course1,
-      title: 'Computer Science',
-      description: 'Are you newer to Programming? Start learning basics of Computer Science as a beginner',
+      title: 'Philosophy of Science',
+      description: 'Explore the foundations of scientific reasoning, methodology, and the evolution of scientific thought',
       progress: 15,
       lastAccessed: '2 days ago',
     },

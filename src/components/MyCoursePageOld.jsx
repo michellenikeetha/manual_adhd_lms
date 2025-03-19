@@ -31,29 +31,29 @@ const MyCoursePage = () => {
 
   const units = [
     {
-      title: "UNIT 1: Introduction to Philosophy of Science",
-      description: ["What is Philosophy of Science?", "Historical Development of Scientific Method", "Logic and Scientific Reasoning"],
+      title: "UNIT 1: Introduction to Programming",
+      description: ["What is Programming?", "Programming languages", "Algorithms and Flow charts"],
       progress: 55,
       estimatedTime: "45 min",
       difficulty: "Beginner"
     },
     {
-      title: "UNIT 2: Scientific Realism and Anti-Realism",
-      description: ["The Reality of Scientific Entities", "Instrumentalism vs. Realism", "Constructive Empiricism"],
+      title: "UNIT 2: Fundamentals of C",
+      description: ["What is Programming?", "Programming languages"],
       progress: 0,
       estimatedTime: "60 min",
       difficulty: "Intermediate"
     },
     {
-      title: "UNIT 3: Paradigms and Scientific Revolutions",
-      description: ["Thomas Kuhn's Structure of Scientific Revolutions", "Normal Science and Paradigm Shifts", "Incommensurability Thesis"],
+      title: "UNIT 3: Rapid Application Development",
+      description: ["What is Programming?", "Programming languages", "Algorithms and Flow charts"],
       progress: 0,
       estimatedTime: "75 min",
       difficulty: "Intermediate"
     },
     {
-      title: "UNIT 4: Falsificationism and Problem of Induction",
-      description: ["Karl Popper's Falsification Principle", "Hume's Problem of Induction", "Demarcation of Science and Pseudoscience"],
+      title: "UNIT 4: Introduction to Database Management Systems",
+      description: ["What is Programming?", "Programming languages", "Algorithms and Flow charts"],
       progress: 0,
       estimatedTime: "90 min",
       difficulty: "Advanced"
@@ -61,11 +61,11 @@ const MyCoursePage = () => {
   ];
 
   const sidebarUnits = [
-    "Introduction to Philosophy of Science",
-    "Scientific Realism and Anti-Realism",
-    "Paradigms and Scientific Revolutions",
-    "Falsificationism and Problem of Induction",
-    "Social Dimensions of Scientific Knowledge",
+    "Introduction to Programming",
+    "Fundamentals of C",
+    "Rapid Application Development",
+    "Introduction to Database Management Systems",
+    "Basics of Python Programming",
   ];
 
   const difficulties = [...new Set(units.map(unit => unit.difficulty))];
@@ -93,7 +93,7 @@ const MyCoursePage = () => {
 
       <div className="container mx-auto px-4 py-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 space-y-4 md:space-y-0">
-          <h1 className="text-3xl font-bold text-gray-800">Philosophy of Science</h1>
+          <h1 className="text-3xl font-bold text-gray-800">Computer Science</h1>
           
           <div className="flex items-center space-x-4">
             <motion.button
@@ -199,14 +199,14 @@ const MyCoursePage = () => {
                   whileHover={{ scale: 1.03 }}
                   className="p-2 bg-red-50 rounded-md border-l-4 border-red-500"
                 >
-                  <p className="font-medium">Essay: Kuhn vs. Popper</p>
+                  <p className="font-medium">Assignment 1</p>
                   <p className="text-gray-600">Due in 3 days</p>
                 </motion.li>
                 <motion.li 
                   whileHover={{ scale: 1.03 }}
                   className="p-2 bg-yellow-50 rounded-md border-l-4 border-yellow-500"
                 >
-                  <p className="font-medium">Quiz: Scientific Method</p>
+                  <p className="font-medium">Quiz: Introduction to Programming</p>
                   <p className="text-gray-600">Due in 7 days</p>
                 </motion.li>
               </ul>
@@ -214,6 +214,24 @@ const MyCoursePage = () => {
           </div>
 
           <div className="md:flex-1">
+            {/* <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-gradient-to-r from-blue-500 to-purple-600 shadow-md rounded-lg p-4 text-white mb-6"
+            >
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-lg font-bold mb-1">Your Progress</h2>
+                  <p>You're making steady progress! Keep going!</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold">14%</div>
+                  <div className="text-sm">Course Completion</div>
+                </div>
+              </div>
+            </motion.div> */}
+
             <AnimatePresence>
               {filteredUnits.map((unit, index) => (
                 <motion.div
@@ -305,6 +323,14 @@ const MyCoursePage = () => {
                             Start Learning
                           </motion.button>
                         )}
+                        
+                        {/* <motion.button 
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="border border-gray-300 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                        >
+                          View Details
+                        </motion.button> */}
                       </div>
                     </div>
                   </div>
@@ -325,7 +351,7 @@ const MyCoursePage = () => {
                       <UploadCloud size={24} />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-gray-800">Essay: Kuhn vs. Popper</h3>
+                      <h3 className="text-lg font-bold text-gray-800">Assignment 1</h3>
                       <p className="text-red-500 text-sm">Due in 3 days</p>
                     </div>
                   </div>
@@ -344,8 +370,8 @@ const MyCoursePage = () => {
                 </div>
                 <div className="bg-orange-50 p-3 rounded-md">
                   <p className="text-gray-700">
-                    Compare and contrast Thomas Kuhn's paradigm shifts with Karl Popper's falsificationism. 
-                    Discuss which approach better represents scientific progress. This essay is worth 15% of your final grade.
+                    Complete the Programming Fundamentals worksheet and submit your answers in a PDF file. 
+                    This assignment is worth 15% of your final grade.
                   </p>
                 </div>
               </div>
@@ -365,7 +391,7 @@ const MyCoursePage = () => {
         >
           <div className="text-sm text-gray-600">
             <span className="font-medium block mb-1">Focus Tip:</span>
-            Try comparing multiple philosophical perspectives on one scientific concept before moving on. Seeing varied viewpoints enriches understanding!
+            Try completing one section of the current unit before taking a short break. Small steps lead to big progress!
           </div>
         </motion.div>
       )}
