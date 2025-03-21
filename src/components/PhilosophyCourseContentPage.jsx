@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import SignedInNavbar from "./SignedInNavbar";
 import { useNavigate } from 'react-router-dom';
 import { 
-  ArrowRight, BookOpen, FileText, HelpCircle, CheckCircle, AlertTriangle,
-  Eye, EyeOff, Brain, Zap, Award, Timer, MousePointer,
+  ArrowRight, BookOpen, FileText, HelpCircle, CheckCircle, AlertTriangle, Globe, TrendingUp, Trees,
+  Eye, EyeOff, Brain, Zap, Award, Timer, MousePointer, Search, Clock, Quote, User,
   ArrowUp, Target, Book, BarChart2, Lightbulb, Lock, Unlock, MessageSquare,
-  ClipboardCheck, Edit3, ChevronLeft
+  ClipboardCheck, Edit3, ChevronLeft, Shield, Users, XCircle, Key, AlertCircle, X, 
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -343,14 +343,13 @@ const PhilosophyCourseContentPage = () => {
 
               <main>
 
-                {/* Section 1 with visual enhancement */}
+                {/* Section 1 */}
                 <section id="distinguishing" className="mb-8 bg-blue-50 p-6 rounded-lg border border-blue-100 transition-all duration-300 hover:shadow-md relative">
                   <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
                     <Zap className="h-6 w-6 text-blue-600 mr-2" />
                     Distinguishing Science from Pseudo-Science
                   </h2>
                   
-                  {/* Visual representation of Popper's timeline */}
                   <div className="mb-6 relative h-20 bg-gray-100 rounded-lg overflow-hidden">
                     <div className="absolute inset-0 flex items-center">
                       <div className="h-1 bg-blue-400 w-full"></div>
@@ -382,54 +381,151 @@ const PhilosophyCourseContentPage = () => {
                   </div>
                   
                   <button 
-                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
+                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group bg-white px-4 py-2 rounded-full shadow-sm transform transition-transform hover:scale-105"
                     onClick={() => markSectionComplete("distinguishing")}
                   >
-                    <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
-                    <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
+                    <CheckCircle className="h-4 w-4 mr-2 group-hover:text-green-600 transition-colors" />
+                    <span className="group-hover:text-green-600 transition-colors">Mark as complete</span>
                   </button>
                 </section>
 
                 {/* Section 2 */}
-                <section id="influences" className="mb-8 bg-gray-50 p-6 rounded-lg border border-gray-100 transition-all duration-300 hover:shadow-md relative">
+                <section id="influences" className="mb-8 bg-gray-50 p-6 rounded-lg border border-gray-100 transition-all duration-300 hover:shadow-md relative overflow-hidden">
+                  {/* Background decorative elements */}
+                  <div className="absolute -right-16 -top-16 h-48 w-48 bg-blue-50 rounded-full opacity-50"></div>
+                  <div className="absolute -left-16 -bottom-16 h-48 w-48 bg-yellow-50 rounded-full opacity-50"></div>
+                  
                   <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                    <Book className="h-6 w-6 text-gray-600 mr-2" />
+                    <Book className="h-6 w-6 text-gray-600 mr-2 animate-pulse" />
                     Influences and Context
                   </h2>
                   
-                  <div className="grid md:grid-cols-2 gap-4 mb-4">
-                    <div className="theory-comparison bg-white p-4 rounded-lg shadow-sm">
-                      <h3 className="text-lg font-medium text-gray-800 mb-2">Logical Positivism</h3>
-                      <p className="text-gray-700 text-sm">
-                        The dominant philosophy of science in early 20th century, which held that meaningful statements must be empirically <span className="font-semibold text-blue-800">verifiable</span>.
-                      </p>
+                  {/* Interactive timeline */}
+                  <div className="relative h-24 mb-6 bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="h-2 bg-gradient-to-r from-blue-300 to-purple-500 w-full"></div>
+                      
+                      {/* Timeline dots with hover effects */}
+                      <div className="absolute left-1/4 top-1/2 transform -translate-y-1/2 group cursor-pointer">
+                        <div className="h-6 w-6 bg-blue-500 rounded-full z-10 transform transition-transform group-hover:scale-125 flex items-center justify-center">
+                          <span className="text-xs text-white font-bold">LP</span>
+                        </div>
+                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-blue-100 p-1 rounded text-xs w-20 text-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          Logical Positivism
+                        </div>
+                      </div>
+                      
+                      <div className="absolute left-1/2 top-1/2 transform -translate-y-1/2 group cursor-pointer">
+                        <div className="h-6 w-6 bg-yellow-500 rounded-full z-10 transform transition-transform group-hover:scale-125 flex items-center justify-center">
+                          <span className="text-xs text-white font-bold">E</span>
+                        </div>
+                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-yellow-100 p-1 rounded text-xs w-20 text-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          Einstein
+                        </div>
+                      </div>
+                      
+                      <div className="absolute left-3/4 top-1/2 transform -translate-y-1/2 group cursor-pointer">
+                        <div className="h-6 w-6 bg-purple-500 rounded-full z-10 transform transition-transform group-hover:scale-125 flex items-center justify-center">
+                          <span className="text-xs text-white font-bold">P</span>
+                        </div>
+                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-purple-100 p-1 rounded text-xs w-20 text-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          Popper
+                        </div>
+                      </div>
                     </div>
                     
-                    <div className="theory-comparison bg-white p-4 rounded-lg shadow-sm">
-                      <h3 className="text-lg font-medium text-gray-800 mb-2">Einstein vs. Marx/Freud</h3>
-                      <p className="text-gray-700 text-sm">
-                        Popper was impressed by Einstein's <span className="font-semibold text-blue-800">testable predictions</span> but skeptical of Marx and Freud whose theories seemed to explain everything without risking falsification.
+                    <div className="absolute top-2 left-0 w-full text-center text-xs text-gray-500">
+                      Early 20th Century
+                    </div>
+                  </div>
+                  
+                  {/* Visual comparison cards with icons */}
+                  <div className="grid md:grid-cols-2 gap-4 mb-6">
+                    <div className="theory-comparison bg-gradient-to-br from-blue-50 to-white p-4 rounded-lg shadow-sm transform transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                      <div className="flex items-center mb-2">
+                        <div className="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                          <Search className="h-5 w-5 text-blue-600" />
+                        </div>
+                        <h3 className="text-lg font-medium text-gray-800">Logical Positivism</h3>
+                      </div>
+                      <div className="ml-12">
+                        <div className="text-sm text-gray-700 bg-white p-2 rounded border-l-2 border-blue-400">
+                          All meaningful statements must be <span className="font-semibold text-blue-800 animate-pulse">verifiable</span> by observation
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="theory-comparison bg-gradient-to-br from-yellow-50 to-white p-4 rounded-lg shadow-sm transform transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                      <div className="flex items-center mb-2">
+                        <div className="flex-shrink-0 h-10 w-10 bg-yellow-100 rounded-full flex items-center justify-center mr-3">
+                          <Zap className="h-5 w-5 text-yellow-600" />
+                        </div>
+                        <h3 className="text-lg font-medium text-gray-800">Key Thinkers</h3>
+                      </div>
+                      <div className="flex justify-between ml-12">
+                        <div className="flex flex-col items-center">
+                          <div className="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center mb-1">
+                            <CheckCircle className="h-5 w-5 text-green-600" />
+                          </div>
+                          <span className="text-xs font-bold">Einstein</span>
+                          <span className="text-xs">Testable</span>
+                        </div>
+                        <span className="text-xl self-center">vs</span>
+                        <div className="flex flex-col items-center">
+                          <div className="h-10 w-10 bg-red-100 rounded-full flex items-center justify-center mb-1">
+                            <X className="h-5 w-5 text-red-600" />
+                          </div>
+                          <span className="text-xs font-bold">Marx/Freud</span>
+                          <span className="text-xs">Unfalsifiable</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Historical context with visual elements */}
+                  <div className="relative bg-white p-4 rounded-lg shadow-sm mb-4 overflow-hidden">
+                    <div className="absolute right-0 top-0 h-24 w-24 bg-gray-50 rounded-full opacity-50 -mr-10 -mt-10"></div>
+                    
+                    <h3 className="text-md font-medium text-gray-800 mb-2 flex items-center">
+                      <Clock className="h-5 w-5 text-gray-600 mr-2" />
+                      Historical Context
+                    </h3>
+                    
+                    <div className="flex items-start space-x-4">
+                      <div className="flex-shrink-0 mt-1">
+                        <div className="h-6 w-6 bg-purple-100 rounded-full flex items-center justify-center">
+                          <ArrowRight className="h-3 w-3 text-purple-600" />
+                        </div>
+                      </div>
+                      <p className="text-sm text-gray-700">
+                        Early 20th century: Different theories competed for 
+                        <span className="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded mx-1 transform transition-transform hover:scale-110">scientific legitimacy</span>
                       </p>
                     </div>
                   </div>
                   
-                  <p className="text-gray-700 mb-4">
-                    Popper developed his ideas during the early 20th century when various intellectual movements, including Marxism, psychoanalysis, and Einstein's relativity theory, were competing for <span className="font-semibold text-blue-800">scientific legitimacy</span>.
-                  </p>
-                  
-                  <div className="bg-white p-4 rounded-lg shadow-sm mb-4 border-l-4 border-purple-500">
-                    <p className="italic text-gray-600">
-                      "Einstein's theory, as I saw it, was not a source of dogmatic certainty, but rather a hypothesis that might be falsified."
-                      <span className="block text-right text-sm mt-1">— Karl Popper</span>
-                    </p>
+                  {/* Quote with visual enhancements */}
+                  <div className="bg-gradient-to-r from-purple-50 to-white p-4 rounded-lg shadow-sm mb-4 border-l-4 border-purple-500 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+                    <div className="relative">
+                      <Quote className="h-8 w-8 text-purple-200 absolute -top-4 -left-4 opacity-50" />
+                      <p className="italic text-gray-600 pl-2">
+                        "Einstein's theory, as I saw it, was not a source of dogmatic certainty, but rather a hypothesis that might be falsified."
+                      </p>
+                      <div className="flex items-center mt-2 justify-end">
+                        <div className="h-6 w-6 bg-purple-100 rounded-full flex items-center justify-center mr-2">
+                          <User className="h-3 w-3 text-purple-600" />
+                        </div>
+                        <span className="text-sm font-medium text-gray-700">Karl Popper</span>
+                      </div>
+                    </div>
                   </div>
                   
                   <button 
-                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
+                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group bg-white px-4 py-2 rounded-full shadow-sm transform transition-transform hover:scale-105"
                     onClick={() => markSectionComplete("influences")}
                   >
-                    <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
-                    <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
+                    <CheckCircle className="h-4 w-4 mr-2 group-hover:text-green-600 transition-colors" />
+                    <span className="group-hover:text-green-600 transition-colors">Mark as complete</span>
                   </button>
                 </section>
 
@@ -463,13 +559,13 @@ const PhilosophyCourseContentPage = () => {
                       <span className="block text-right text-sm mt-1">— Karl Popper</span>
                     </p>
                   </div>
-                  
+
                   <button 
-                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
+                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group bg-white px-4 py-2 rounded-full shadow-sm transform transition-transform hover:scale-105"
                     onClick={() => markSectionComplete("problem")}
                   >
-                    <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
-                    <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
+                    <CheckCircle className="h-4 w-4 mr-2 group-hover:text-green-600 transition-colors" />
+                    <span className="group-hover:text-green-600 transition-colors">Mark as complete</span>
                   </button>
                 </section>
 
@@ -504,11 +600,11 @@ const PhilosophyCourseContentPage = () => {
                   </div>
                   
                   <button 
-                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
+                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group bg-white px-4 py-2 rounded-full shadow-sm transform transition-transform hover:scale-105"
                     onClick={() => markSectionComplete("einstein")}
                   >
-                    <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
-                    <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
+                    <CheckCircle className="h-4 w-4 mr-2 group-hover:text-green-600 transition-colors" />
+                    <span className="group-hover:text-green-600 transition-colors">Mark as complete</span>
                   </button>
                 </section>
 
@@ -552,61 +648,133 @@ const PhilosophyCourseContentPage = () => {
                   </div>
                   
                   <button 
-                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
+                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group bg-white px-4 py-2 rounded-full shadow-sm transform transition-transform hover:scale-105"
                     onClick={() => markSectionComplete("principles")}
                   >
-                    <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
-                    <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
+                    <CheckCircle className="h-4 w-4 mr-2 group-hover:text-green-600 transition-colors" />
+                    <span className="group-hover:text-green-600 transition-colors">Mark as complete</span>
                   </button>
                 </section>
 
                 {/* Section 6 */}
                 <section id="falsifiability" className="mb-8 bg-purple-50 p-6 rounded-lg border border-purple-100 transition-all duration-300 hover:shadow-md">
                   <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                    <Lock className="h-6 w-6 text-purple-600 mr-2" />
+                    <Lock className="h-6 w-6 text-purple-600 mr-2 animate-bounce" />
                     Understanding Falsifiability
                   </h2>
                   
-                  <div className="bg-white p-4 rounded-lg shadow-sm mb-4">
-                    <h3 className="text-md font-medium text-gray-800 mb-2">What Makes a Theory Falsifiable?</h3>
-                    <p className="text-gray-700 mb-2">
-                      A theory is falsifiable if and only if:
-                    </p>
-                    <ul className="list-disc pl-5 text-gray-700 space-y-1">
-                      <li>It makes specific, testable predictions</li>
-                      <li>It prohibits certain observations or results</li>
-                      <li>There exists at least one possible observation that would contradict it</li>
-                    </ul>
+                  {/* Visual metaphor */}
+                  <div className="relative h-40 mb-6 bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-full flex justify-around items-center px-8">
+                        {/* Left side - unfalsifiable */}
+                        <div className="text-center">
+                          <div className="mx-auto h-20 w-20 bg-red-100 rounded-full flex items-center justify-center mb-2 relative overflow-hidden">
+                            <Shield className="h-10 w-10 text-red-400" />
+                            <div className="absolute inset-0 bg-red-200 opacity-50 animate-pulse"></div>
+                          </div>
+                          <p className="text-sm font-medium text-red-500">Unfalsifiable</p>
+                          <p className="text-xs text-gray-500">"Explains everything"</p>
+                        </div>
+                        
+                        {/* Arrow */}
+                        <ArrowRight className="h-8 w-8 text-gray-400" />
+                        
+                        {/* Right side - falsifiable */}
+                        <div className="text-center">
+                          <div className="mx-auto h-20 w-20 bg-green-100 rounded-full flex items-center justify-center mb-2 relative">
+                            <Target className="h-10 w-10 text-green-500" />
+                            <div className="absolute top-6 left-14 h-2 w-2 bg-red-500 rounded-full animate-ping"></div>
+                          </div>
+                          <p className="text-sm font-medium text-green-500">Falsifiable</p>
+                          <p className="text-xs text-gray-500">"Makes testable predictions"</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   
-                  <p className="text-gray-700 mb-4">
-                    Falsifiability is not about whether a theory is actually false, but whether it <span className="font-semibold text-purple-800">could be shown to be false</span> if contradictory evidence emerged. The more ways a theory could be falsified, the more scientific it is.
-                  </p>
-                  
-                  <div className="grid md:grid-cols-2 gap-4 mb-4">
-                    <div className="theory-comparison bg-white p-4 rounded-lg shadow-sm">
-                      <h3 className="text-lg font-medium text-gray-800 mb-2">Falsifiable</h3>
-                      <p className="text-gray-700 text-sm">
-                        "All swans are white."<br/>
-                        (Can be disproven by finding a single black swan)
-                      </p>
+                  {/* Interactive comparison cards */}
+                  <div className="grid md:grid-cols-2 gap-4 mb-6">
+                    <div className="theory-comparison bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500 transform transition-transform hover:scale-105">
+                      <h3 className="text-lg font-medium text-gray-800 mb-2 flex items-center">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                        Falsifiable
+                      </h3>
+                      <div className="flex items-center">
+                        <div className="mr-3 bg-green-100 p-2 rounded-full">
+                          <Users className="h-5 w-5 text-green-600" />
+                        </div>
+                        <p className="text-gray-700 text-sm">
+                          "All swans are white"
+                        </p>
+                      </div>
+                      <div className="mt-2 text-xs bg-green-50 p-2 rounded-lg">
+                        <span className="font-bold">Why? </span> 
+                        Finding just ONE black swan proves it wrong!
+                      </div>
                     </div>
                     
-                    <div className="theory-comparison bg-white p-4 rounded-lg shadow-sm">
-                      <h3 className="text-lg font-medium text-gray-800 mb-2">Unfalsifiable</h3>
-                      <p className="text-gray-700 text-sm">
-                        "There exists at least one white swan somewhere in the universe."<br/>
-                        (Cannot be disproven no matter how many non-white swans are found)
-                      </p>
+                    <div className="theory-comparison bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500 transform transition-transform hover:scale-105">
+                      <h3 className="text-lg font-medium text-gray-800 mb-2 flex items-center">
+                        <XCircle className="h-5 w-5 text-red-500 mr-2" />
+                        Unfalsifiable
+                      </h3>
+                      <div className="flex items-center">
+                        <div className="mr-3 bg-red-100 p-2 rounded-full">
+                          <Users className="h-5 w-5 text-red-600" />
+                        </div>
+                        <p className="text-gray-700 text-sm">
+                          "At least one white swan exists"
+                        </p>
+                      </div>
+                      <div className="mt-2 text-xs bg-red-50 p-2 rounded-lg">
+                        <span className="font-bold">Why? </span> 
+                        No matter how many non-white swans we find, we can't disprove this!
+                      </div>
                     </div>
+                  </div>
+                  
+                  {/* Key points as icons */}
+                  <div className="bg-white p-4 rounded-lg shadow-sm mb-4">
+                    <h3 className="text-md font-medium text-gray-800 mb-3 flex items-center">
+                      <Key className="h-5 w-5 text-purple-600 mr-2 animate-pulse" />
+                      Key Points to Remember:
+                    </h3>
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="flex flex-col items-center text-center p-2 bg-purple-50 rounded-lg">
+                        <AlertCircle className="h-8 w-8 text-purple-500 mb-2" />
+                        <p className="text-xs text-gray-700">Makes specific predictions</p>
+                      </div>
+                      <div className="flex flex-col items-center text-center p-2 bg-purple-50 rounded-lg">
+                        <X className="h-8 w-8 text-purple-500 mb-2" />
+                        <p className="text-xs text-gray-700">Rules out certain observations</p>
+                      </div>
+                      <div className="flex flex-col items-center text-center p-2 bg-purple-50 rounded-lg">
+                        <Zap className="h-8 w-8 text-purple-500 mb-2" />
+                        <p className="text-xs text-gray-700">Can be proven wrong</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Interactive element */}
+                  <div className="bg-indigo-50 p-4 rounded-lg shadow-sm mb-4 relative overflow-hidden">
+                    <div className="absolute right-0 top-0 h-20 w-20">
+                      <div className="absolute right-0 top-0 h-40 w-40 bg-indigo-100 rounded-full -mr-20 -mt-20"></div>
+                    </div>
+                    <h3 className="text-md font-medium text-gray-800 mb-2 relative z-10">Try This:</h3>
+                    <p className="text-sm text-gray-700 mb-3 relative z-10">For each theory, ask yourself:</p>
+                    <div className="bg-white p-3 rounded-lg text-sm relative z-10">
+                      <p className="font-bold text-indigo-700">"What observation would prove this wrong?"</p>
+                    </div>
+                    <div className="mt-2 text-xs text-gray-600 italic relative z-10">If you can't think of any, it might not be scientific!</div>
                   </div>
                   
                   <button 
-                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
+                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group bg-white px-4 py-2 rounded-full shadow-sm transform transition-transform hover:scale-105"
                     onClick={() => markSectionComplete("falsifiability")}
                   >
-                    <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
-                    <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
+                    <CheckCircle className="h-4 w-4 mr-2 group-hover:text-green-600 transition-colors" />
+                    <span className="group-hover:text-green-600 transition-colors">Mark as complete</span>
                   </button>
                 </section>
 
@@ -643,51 +811,105 @@ const PhilosophyCourseContentPage = () => {
                       <span className="block text-right text-sm mt-1">— Karl Popper</span>
                     </p>
                   </div>
-                  
+
                   <button 
-                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
+                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group bg-white px-4 py-2 rounded-full shadow-sm transform transition-transform hover:scale-105"
                     onClick={() => markSectionComplete("criticism")}
                   >
-                    <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
-                    <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
+                    <CheckCircle className="h-4 w-4 mr-2 group-hover:text-green-600 transition-colors" />
+                    <span className="group-hover:text-green-600 transition-colors">Mark as complete</span>
                   </button>
                 </section>
 
-                {/* Section 8 */}
+                {/* Section 8 - ADHD Friendly Version */}
                 <section id="legacy" className="mb-8 bg-orange-50 p-6 rounded-lg border border-orange-100 transition-all duration-300 hover:shadow-md">
                   <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
                     <Award className="h-6 w-6 text-orange-600 mr-2" />
                     Legacy and Influence
                   </h2>
                   
-                  <p className="text-gray-700 mb-4">
-                    Despite criticisms, Popper's falsifiability criterion remains a powerful tool for distinguishing between scientific and pseudo-scientific claims. His emphasis on <span className="font-semibold text-indigo-800">critical rationalism</span> has influenced fields beyond philosophy of science.
-                  </p>
-                  
-                  <div className="bg-white p-4 rounded-lg shadow-sm mb-4">
-                    <h3 className="text-md font-medium text-gray-800 mb-2">Areas Influenced by Popper:</h3>
-                    <ul className="list-disc pl-5 text-gray-700 space-y-1">
-                      <li>Political philosophy (critique of historicism and defense of the open society)</li>
-                      <li>Evolutionary epistemology</li>
-                      <li>Scientific methodology and research design</li>
-                      <li>Economic theory</li>
-                      <li>Educational theory</li>
-                    </ul>
+                  {/* Visual representation replacing long paragraph */}
+                  <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
+                    <div className="bg-white p-4 rounded-lg shadow-sm flex items-center">
+                      <div className="h-16 w-16 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
+                        <Target className="h-8 w-8 text-indigo-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">Falsifiability</h3>
+                        <p className="text-sm text-gray-600">Powerful tool to identify science</p>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-white p-4 rounded-lg shadow-sm flex items-center">
+                      <div className="h-16 w-16 bg-orange-100 rounded-full flex items-center justify-center mr-3">
+                        <Brain className="h-8 w-8 text-orange-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">Critical Rationalism</h3>
+                        <p className="text-sm text-gray-600">Influenced multiple fields</p>
+                      </div>
+                    </div>
                   </div>
                   
-                  <div className="bg-white p-4 rounded-lg shadow-sm mb-4 border-l-4 border-indigo-500">
-                    <p className="italic text-gray-600">
+                  {/* Interactive areas of influence cards */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+                    <div className="bg-white p-3 rounded-lg shadow-sm border-l-4 border-blue-500 hover:shadow-md transition-all duration-200">
+                      <div className="flex items-center mb-2">
+                        <Globe className="h-5 w-5 text-blue-500 mr-2" />
+                        <h3 className="font-medium">Political Philosophy</h3>
+                      </div>
+                      <p className="text-xs text-gray-600">Open society & critique of historicism</p>
+                    </div>
+                    
+                    <div className="bg-white p-3 rounded-lg shadow-sm border-l-4 border-green-500 hover:shadow-md transition-all duration-200">
+                      <div className="flex items-center mb-2">
+                        <FileText className="h-5 w-5 text-green-500 mr-2" />
+                        <h3 className="font-medium">Scientific Method</h3>
+                      </div>
+                      <p className="text-xs text-gray-600">Research design & methodology</p>
+                    </div>
+                    
+                    <div className="bg-white p-3 rounded-lg shadow-sm border-l-4 border-purple-500 hover:shadow-md transition-all duration-200">
+                      <div className="flex items-center mb-2">
+                        <BookOpen className="h-5 w-5 text-purple-500 mr-2" />
+                        <h3 className="font-medium">Educational Theory</h3>
+                      </div>
+                      <p className="text-xs text-gray-600">Learning through critical thinking</p>
+                    </div>
+                    
+                    <div className="bg-white p-3 rounded-lg shadow-sm border-l-4 border-yellow-500 hover:shadow-md transition-all duration-200">
+                      <div className="flex items-center mb-2">
+                        <TrendingUp className="h-5 w-5 text-yellow-500 mr-2" />
+                        <h3 className="font-medium">Economic Theory</h3>
+                      </div>
+                      <p className="text-xs text-gray-600">Markets & knowledge distribution</p>
+                    </div>
+                    
+                    <div className="bg-white p-3 rounded-lg shadow-sm border-l-4 border-red-500 hover:shadow-md transition-all duration-200">
+                      <div className="flex items-center mb-2">
+                        <Trees className="h-5 w-5 text-red-500 mr-2" />
+                        <h3 className="font-medium">Evolutionary Ideas</h3>
+                      </div>
+                      <p className="text-xs text-gray-600">Epistemology & natural selection</p>
+                    </div>
+                  </div>
+                  
+                  {/* Animated quote */}
+                  <div className="bg-white p-4 rounded-lg shadow-sm mb-4 border-l-4 border-indigo-500 relative overflow-hidden group">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500 transform transition-transform duration-3000 -translate-x-full group-hover:translate-x-0"></div>
+                    <p className="italic text-gray-600 font-medium text-center">
                       "True ignorance is not the absence of knowledge, but the refusal to acquire it."
-                      <span className="block text-right text-sm mt-1">— Karl Popper</span>
+                      <span className="block text-right text-sm mt-2">— Karl Popper</span>
                     </p>
+                    <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-purple-500 to-indigo-500 transform transition-transform duration-3000 translate-x-full group-hover:translate-x-0"></div>
                   </div>
                   
                   <button 
-                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
+                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group bg-white px-4 py-2 rounded-full shadow-sm transform transition-transform hover:scale-105"
                     onClick={() => markSectionComplete("legacy")}
                   >
-                    <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
-                    <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
+                    <CheckCircle className="h-4 w-4 mr-2 group-hover:text-green-600 transition-colors" />
+                    <span className="group-hover:text-green-600 transition-colors">Mark as complete</span>
                   </button>
                 </section>
 
@@ -710,11 +932,11 @@ const PhilosophyCourseContentPage = () => {
                   </div>
                   
                   <button 
-                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group"
+                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center mt-4 group bg-white px-4 py-2 rounded-full shadow-sm transform transition-transform hover:scale-105"
                     onClick={() => markSectionComplete("practice")}
                   >
-                    <CheckCircle className="h-4 w-4 mr-1 group-active:text-green-600 transition-colors" />
-                    <span className="group-active:text-green-600 transition-colors">Mark as complete</span>
+                    <CheckCircle className="h-4 w-4 mr-2 group-hover:text-green-600 transition-colors" />
+                    <span className="group-hover:text-green-600 transition-colors">Mark as complete</span>
                   </button>
                 </section>
 

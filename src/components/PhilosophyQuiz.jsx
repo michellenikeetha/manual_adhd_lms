@@ -541,7 +541,7 @@ const PhilosophyQuiz = () => {
                 {showFeedback.q10.correct ? (
                   <p>✅ Correct! The Duhem-Quine thesis actually states the opposite - that theories are never tested in isolation but always with auxiliary hypotheses.</p>
                 ) : (
-<p>❌ That's not right. The Duhem-Quine thesis states that theories are tested as a network of beliefs, not in isolation, which complicates the process of falsification.</p>
+                  <p>❌ That's not right. The Duhem-Quine thesis states that theories are tested as a network of beliefs, not in isolation, which complicates the process of falsification.</p>
                 )}
               </div>
             )}
