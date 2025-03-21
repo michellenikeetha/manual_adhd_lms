@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SignedInNavbar from "./SignedInNavbar";
+import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff } from "lucide-react";
 
 const PhilosophyQuiz = () => {
@@ -637,13 +638,25 @@ const PhilosophyQuiz = () => {
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="mb-8 flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-800">Karl Popper's Philosophy of Science Quiz</h1>
-          <button
-            onClick={() => setFocusMode(!focusMode)}
-            className="flex items-center px-4 py-2 bg-white rounded-lg shadow-sm border border-gray-300 hover:bg-gray-50 transition-colors"
-          >
-            {focusMode ? <EyeOff size={18} className="mr-2" /> : <Eye size={18} className="mr-2" />}
-            {focusMode ? "Exit Focus Mode" : "Focus Mode"}
-          </button>
+          <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setFocusMode(!focusMode)}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors
+                ${focusMode ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-500'}`}
+            >
+              {focusMode ? (
+                <>
+                  <EyeOff size={20} />
+                  <span>Focus Mode</span>
+                </>
+              ) : (
+                <>
+                  <Eye size={20} />
+                  <span>Normal Mode</span>
+                </>
+              )}
+            </motion.button>
         </div>
 
         {!quizCompleted && (
