@@ -25,6 +25,7 @@ import ViewCertificate from "./components/ViewCertificate.jsx";
 import OlderAnnouncementsPage from "./components/OlderAnnouncements.jsx";
 import PhilosophyCoursePage from "./components/PhilosophyCoursePage.jsx";
 import PhilosophyCourseContentPage from "./components/PhilosophyCourseContentPage.jsx";
+import PhilosophyQuiz from "./components/PhilosophyQuiz.jsx";
 import Clarity from '@microsoft/clarity';
 
 function App() {
@@ -54,7 +55,8 @@ function App() {
         <Route path="/calendar" element={<CalendarPage />} />
         {/* <Route path="/my-learning/my-course/course-content" element={<CourseContent />} /> */}
         <Route path="/my-learning/my-course/course-content" element={<PhilosophyCourseContentPage />} />
-        <Route path="/quiz" element={<ProgrammingQuiz />} />
+        {/* <Route path="/quiz" element={<ProgrammingQuiz />} /> */}
+        <Route path="/quiz" element={<PhilosophyQuiz />} />
         <Route path="/my-learning/view-certificate" element={<ViewCertificate />} />
       </Routes>
     </Router>
